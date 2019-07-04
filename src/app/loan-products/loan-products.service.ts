@@ -12,6 +12,9 @@ export interface IProductDetail {
   maxTenor: number;
   interestRate: number;
   rateType: number;
+  loanType: number;
+  penalty: number;
+  isBVNRequired: boolean;
 }
 
 export interface IProductRequiredFields {

@@ -9,7 +9,7 @@ import env from './.env';
 export const environment = {
   production: true,
   version: env.npm_package_version,
-  serverUrl: 'http://mbappeloan-env.qsenfnm3ng.us-east-2.elasticbeanstalk.com/api/',
+  serverUrl: 'http://ec2-52-91-72-157.compute-1.amazonaws.com/api/',
   defaultLanguage: 'en-US',
   supportedLanguages: ['en-US', 'fr-FR']
 };

@@ -51,7 +51,7 @@
                     </div>
                     <div class="form-group">
                       <label>Product Description</label>
-                      <input class="form-control" name="text" formControlName="description" />
+                      <textarea class="form-control" name="text" formControlName="description"  rows="5"></textarea>
                       <ul
                         class="parsley-errors-list filled"
                         [hidden]="
@@ -61,78 +61,138 @@
                         <li class="parsley-required"><small>This value is required.</small></li>
                       </ul>
                     </div>
-                    <div class="form-group">
-                      <label>Minimum Loan Amount <small>value must be greater than 0</small></label>
-                      <input class="form-control" name="email" formControlName="minLoanAmount" />
-                      <ul
-                        class="parsley-errors-list filled"
-                        [hidden]="
-                          loanDetailForm.controls.minLoanAmount.valid || loanDetailForm.controls.minLoanAmount.untouched
-                        "
-                      >
-                        <li class="parsley-required"><small>This value is required.</small></li>
-                      </ul>
-                    </div>
-                    <div class="form-group">
-                      <label>Maximum Loan Amount</label>
-                      <input class="form-control" name="number" formControlName="maxLoanAmount" />
-                      <ul
-                        class="parsley-errors-list filled"
-                        [hidden]="
-                          loanDetailForm.controls.maxLoanAmount.valid || loanDetailForm.controls.maxLoanAmount.untouched
-                        "
-                      >
-                        <li class="parsley-required"><small>This value is required.</small></li>
-                      </ul>
+                    <hr>
+                    <div class="row">
+                      <p class="col-md-12">Required credit scoring parameters</p>
+                      <div class="form-group col-md-4">
+                        <label>BVN <input type="checkbox" formControlName="isBVNRequired"/>
+                        </label>
+                        <ul
+                          class="parsley-errors-list filled"
+                          [hidden]="loanDetailForm.controls.isBVNRequired.valid || loanDetailForm.controls.isBVNRequired.untouched"
+                        >
+                          <li class="parsley-required"><small>This value is required.</small></li>
+                        </ul>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label>Date of birth <input type="checkbox" formControlName="dob"/>
+                        </label>
+                        <ul
+                          class="parsley-errors-list filled"
+                          [hidden]="loanDetailForm.controls.dob.valid || loanDetailForm.controls.dob.untouched"
+                        >
+                          <li class="parsley-required"><small>This value is required.</small></li>
+                        </ul>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label>Phone on BVN <input type="checkbox" formControlName="phoneOnBvn"/>
+                        </label>
+                        <ul
+                          class="parsley-errors-list filled"
+                          [hidden]="loanDetailForm.controls.phoneOnBvn.valid || loanDetailForm.controls.phoneOnBvn.untouched"
+                        >
+                          <li class="parsley-required"><small>This value is required.</small></li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <div class="form-group">
-                      <label>Minimum Tenor <small>in days</small></label>
-                      <input class="form-control" name="number" formControlName="minTenor" />
-                      <ul
-                        class="parsley-errors-list filled"
-                        [hidden]="loanDetailForm.controls.minTenor.valid || loanDetailForm.controls.minTenor.untouched"
-                      >
-                        <li class="parsley-required"><small>This value is required.</small></li>
-                      </ul>
+                    <div class="row">
+                      <div class="form-group col-md-6">
+                        <label>Minimum Loan Amount <br><small>value must be greater than 0</small></label>
+                        <input class="form-control" name="email" formControlName="minLoanAmount" />
+                        <ul
+                          class="parsley-errors-list filled"
+                          [hidden]="
+                          loanDetailForm.controls.minLoanAmount.valid || loanDetailForm.controls.minLoanAmount.untouched
+                        "
+                        >
+                          <li class="parsley-required"><small>This value is required.</small></li>
+                        </ul>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label>Maximum Loan Amount<br><small>value must be greater than 0</small></label>
+                        <input class="form-control" name="number" formControlName="maxLoanAmount" />
+                        <ul
+                          class="parsley-errors-list filled"
+                          [hidden]="
+                          loanDetailForm.controls.maxLoanAmount.valid || loanDetailForm.controls.maxLoanAmount.untouched
+                        "
+                        >
+                          <li class="parsley-required"><small>This value is required.</small></li>
+                        </ul>
+                      </div>
                     </div>
-                    <div class="form-group">
-                      <label>Maximum Tenor <small>in days</small></label>
-                      <input class="form-control" name="number" formControlName="maxTenor" />
-                      <ul
-                        class="parsley-errors-list filled"
-                        [hidden]="loanDetailForm.controls.maxTenor.valid || loanDetailForm.controls.maxTenor.untouched"
-                      >
-                        <li class="parsley-required"><small>This value is required.</small></li>
-                      </ul>
+                    <div class="row">
+                      <div class="form-group col-md-6">
+                        <label>Loan Type</label>
+                        <select class="form-control" name="number" formControlName="loanType">
+                          <option *ngFor="let r of loanType" value="{{r.key}}">{{r.value}}</option>
+                        </select>
+                        <ul class="parsley-errors-list filled"
+                          [hidden]="
+                          loanDetailForm.controls.loanType.valid || loanDetailForm.controls.loanType.untouched">
+                          <li class="parsley-required"><small>This value is required.</small></li>
+                        </ul>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label>Select Repayment frequency</label>
+                        <select class="form-control" name="number" formControlName="rateType" (change)="setTenor($event.target.value)">
+                          <option *ngFor="let r of rateType" value="{{r.key}}">{{r.value}}</option>
+                        </select>
+                        <ul
+                          class="parsley-errors-list filled"
+                          [hidden]="loanDetailForm.controls.rateType.valid || loanDetailForm.controls.rateType.untouched"
+                        >
+                          <li class="parsley-required"><small>This value is required.</small></li>
+                        </ul>
+                      </div>
                     </div>
-                    <div class="form-group">
-                      <label>Interest Rate</label>
-                      <input class="form-control" name="number" formControlName="interestRate" />
-                      <ul
-                        class="parsley-errors-list filled"
-                        [hidden]="
+                    <div class="row">
+                      <div class="form-group col-md-6">
+                        <label>Minimum Tenor <small>in {{tenorInWords}}</small></label>
+                        <input class="form-control" name="number" formControlName="minTenor" />
+                        <ul
+                          class="parsley-errors-list filled"
+                          [hidden]="loanDetailForm.controls.minTenor.valid || loanDetailForm.controls.minTenor.untouched"
+                        >
+                          <li class="parsley-required"><small>This value is required.</small></li>
+                        </ul>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label>Maximum Tenor <small>in {{tenorInWords}}</small></label>
+                        <input class="form-control" name="number" formControlName="maxTenor" />
+                        <ul
+                          class="parsley-errors-list filled"
+                          [hidden]="loanDetailForm.controls.maxTenor.valid || loanDetailForm.controls.maxTenor.untouched"
+                        >
+                          <li class="parsley-required"><small>This value is required.</small></li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-md-6">
+                        <label>Interest Rate</label>
+                        <input class="form-control" name="number" formControlName="interestRate" />
+                        <ul
+                          class="parsley-errors-list filled"
+                          [hidden]="
                           loanDetailForm.controls.interestRate.valid || loanDetailForm.controls.interestRate.untouched
                         "
-                      >
-                        <li class="parsley-required"><small>This value is required.</small></li>
-                      </ul>
-                    </div>
-                    <div class="form-group">
-                      <label>Select Repayment frequency</label>
-                      <select class="form-control" name="number" formControlName="rateType">
-                        <option value="1">Monthly</option>
-                        <option value="1">Bi-monthly</option>
-                        <option value="1">Weekly</option>
-                        <option value="1">Annually</option>
-                      </select>
-                      <ul
-                        class="parsley-errors-list filled"
-                        [hidden]="loanDetailForm.controls.rateType.valid || loanDetailForm.controls.rateType.untouched"
-                      >
-                        <li class="parsley-required"><small>This value is required.</small></li>
-                      </ul>
+                        >
+                          <li class="parsley-required"><small>This value is required.</small></li>
+                        </ul>
+                      </div>
+                      <div class="form-group col-md-6">
+                        <label>Penalty Interest (In %)</label>
+                        <input class="form-control" formControlName="penalty"/>
+                        <ul
+                          class="parsley-errors-list filled"
+                          [hidden]="loanDetailForm.controls.penalty.valid || loanDetailForm.controls.penalty.untouched"
+                        >
+                          <li class="parsley-required"><small>This value is required.</small></li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>

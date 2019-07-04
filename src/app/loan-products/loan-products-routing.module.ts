@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { Shell } from '@app/shell/shell.service';
-import { ListUsersComponent } from '@app/admin-users/list-users/list-users.component';
 import { CreateProductComponent } from '@app/loan-products/create-product/create-product.component';
 import { ListProductsComponent } from '@app/loan-products/list-products/list-products.component';
 import {extract} from '@app/core/i18n.service';

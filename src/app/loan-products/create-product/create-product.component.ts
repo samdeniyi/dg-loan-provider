@@ -7,7 +7,6 @@ import {
 } from '@app/loan-products/loan-products.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
-import { forEach } from '@angular/router/src/utils/collection';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import {Logger} from '@app/core/logger.service';
@@ -31,6 +30,19 @@ export class CreateProductComponent implements OnInit, OnDestroy {
   public collepse = 'collapse0';
   public requiredFieldsArray = <any>[];
   public requiredFieldsObj: IProductRequiredFields;
+  public tenorInWords: any;
+
+  public  rateType = [
+    { key: '1', value: 'Days'},
+    { key: '2', value: 'Weeks'},
+    { key: '3', value: 'Months'},
+    { key: '4', value: 'Years'}
+  ];
+
+  public  loanType = [
+    { key: '1', value: 'Secured'},
+    { key: '2', value: 'Unsecured'}
+  ];
 
   public breadcrumbItem: any = [
     {
@@ -53,6 +65,13 @@ export class CreateProductComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.createLoanDetailForm();
+    this.loanDetailForm.controls['rateType'].setValue('2');
+    this.loanDetailForm.controls['loanType'].setValue('2');
+    this.loanDetailForm.controls['penalty'].setValue('5');
+    this.loanDetailForm.controls['isBVNRequired'].setValue(false);
+    this.loanDetailForm.controls['dob'].setValue(false);
+    this.loanDetailForm.controls['phoneOnBvn'].setValue(false);
+    this.tenorInWords = this.rateType[1].value;
   }
 
   ngOnDestroy(): void {}
@@ -77,7 +96,12 @@ export class CreateProductComponent implements OnInit, OnDestroy {
       minTenor: [null, [Validators.required]],
       maxTenor: [null, [Validators.required]],
       interestRate: [null, Validators.required],
-      rateType: [null, Validators.required]
+      rateType: [null, Validators.required],
+      loanType: [null, Validators.required],
+      penalty: [null, Validators.required],
+      isBVNRequired: [null],
+      dob: [null],
+      phoneOnBvn: [null],
     });
   }
 
@@ -176,5 +200,13 @@ export class CreateProductComponent implements OnInit, OnDestroy {
           log.info(err);
         }
       );
+  }
+
+  setTenor(e: any) {
+    // this.tenorInWords = this.rateType[0].value;
+    log.info(e);
+    const md = this.rateType.filter((m: any) => m.key === e);
+    log.info(md[0].value);
+    this.tenorInWords = md[0].value;
   }
 }

@@ -89,6 +89,23 @@
             <li
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
+              [ngClass]="{ active: currentActiveMenu == 'loans' }"
+            >
+              <a class="has-arrow" (click)="activeInactiveMenu('loans')"
+                ><i class="icon-credit-card"></i> <span>Manage Loans</span></a
+              >
+              <ul *ngIf="currentActiveMenu == 'loans'">
+                <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                  <a [routerLink]="['/loans/approvals']">Approval List</a>
+                </li>
+                <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                  <a [routerLink]="['/loans/pending']">Pending Disbursement</a>
+                </li>
+              </ul>
+            </li>
+            <li
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
               [ngClass]="{ active: currentActiveMenu == 'admin-users' }"
             >
               <a class="has-arrow" (click)="activeInactiveMenu('admin-users')"

@@ -19,6 +19,10 @@ const routes: Routes = [
     path: 'clients',
     loadChildren: './clients-interface/clients-interface.module#ClientsInterfaceModule'
   },
+  {
+    path: 'loans',
+    loadChildren: './loans/loans.module#LoansModule'
+  },
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
