@@ -8,9 +8,8 @@ describe('PendingDisbursementsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PendingDisbursementsComponent ]
-    })
-    .compileComponents();
+      declarations: [PendingDisbursementsComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

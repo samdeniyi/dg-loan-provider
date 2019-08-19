@@ -4,11 +4,11 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 
 import { environment } from '@env/environment';
-import {I18nService} from '@app/core/i18n.service';
-import {AuthenticationService, ILoginContext} from '@app/core/authentication/authentication.service';
-import {CredentialsService} from '@app/core/authentication/credentials.service';
-import {untilDestroyed} from '@app/core/until-destroyed';
-import {Logger} from '@app/core/logger.service';
+import { I18nService } from '@app/core/i18n.service';
+import { AuthenticationService, ILoginContext } from '@app/core/authentication/authentication.service';
+import { CredentialsService } from '@app/core/authentication/credentials.service';
+import { untilDestroyed } from '@app/core/until-destroyed';
+import { Logger } from '@app/core/logger.service';
 const log = new Logger('Login');
 
 export interface IResponseContext {

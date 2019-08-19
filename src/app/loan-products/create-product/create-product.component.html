@@ -51,7 +51,7 @@
                     </div>
                     <div class="form-group">
                       <label>Product Description</label>
-                      <textarea class="form-control" name="text" formControlName="description"  rows="5"></textarea>
+                      <textarea class="form-control" name="text" formControlName="description" rows="5"></textarea>
                       <ul
                         class="parsley-errors-list filled"
                         [hidden]="
@@ -61,22 +61,23 @@
                         <li class="parsley-required"><small>This value is required.</small></li>
                       </ul>
                     </div>
-                    <hr>
+                    <hr />
                     <div class="row">
                       <p class="col-md-12">Required credit scoring parameters</p>
                       <div class="form-group col-md-4">
-                        <label>BVN <input type="checkbox" formControlName="isBVNRequired"/>
-                        </label>
+                        <label>BVN <input type="checkbox" formControlName="isBVNRequired" /> </label>
                         <ul
                           class="parsley-errors-list filled"
-                          [hidden]="loanDetailForm.controls.isBVNRequired.valid || loanDetailForm.controls.isBVNRequired.untouched"
+                          [hidden]="
+                            loanDetailForm.controls.isBVNRequired.valid ||
+                            loanDetailForm.controls.isBVNRequired.untouched
+                          "
                         >
                           <li class="parsley-required"><small>This value is required.</small></li>
                         </ul>
                       </div>
                       <div class="form-group col-md-4">
-                        <label>Date of birth <input type="checkbox" formControlName="dob"/>
-                        </label>
+                        <label>Date of birth <input type="checkbox" formControlName="dob" /> </label>
                         <ul
                           class="parsley-errors-list filled"
                           [hidden]="loanDetailForm.controls.dob.valid || loanDetailForm.controls.dob.untouched"
@@ -85,11 +86,12 @@
                         </ul>
                       </div>
                       <div class="form-group col-md-4">
-                        <label>Phone on BVN <input type="checkbox" formControlName="phoneOnBvn"/>
-                        </label>
+                        <label>Phone on BVN <input type="checkbox" formControlName="phoneOnBvn" /> </label>
                         <ul
                           class="parsley-errors-list filled"
-                          [hidden]="loanDetailForm.controls.phoneOnBvn.valid || loanDetailForm.controls.phoneOnBvn.untouched"
+                          [hidden]="
+                            loanDetailForm.controls.phoneOnBvn.valid || loanDetailForm.controls.phoneOnBvn.untouched
+                          "
                         >
                           <li class="parsley-required"><small>This value is required.</small></li>
                         </ul>
@@ -99,25 +101,27 @@
                   <div class="col-md-6">
                     <div class="row">
                       <div class="form-group col-md-6">
-                        <label>Minimum Loan Amount <br><small>value must be greater than 0</small></label>
+                        <label>Minimum Loan Amount <br /><small>value must be greater than 0</small></label>
                         <input class="form-control" name="email" formControlName="minLoanAmount" />
                         <ul
                           class="parsley-errors-list filled"
                           [hidden]="
-                          loanDetailForm.controls.minLoanAmount.valid || loanDetailForm.controls.minLoanAmount.untouched
-                        "
+                            loanDetailForm.controls.minLoanAmount.valid ||
+                            loanDetailForm.controls.minLoanAmount.untouched
+                          "
                         >
                           <li class="parsley-required"><small>This value is required.</small></li>
                         </ul>
                       </div>
                       <div class="form-group col-md-6">
-                        <label>Maximum Loan Amount<br><small>value must be greater than 0</small></label>
+                        <label>Maximum Loan Amount<br /><small>value must be greater than 0</small></label>
                         <input class="form-control" name="number" formControlName="maxLoanAmount" />
                         <ul
                           class="parsley-errors-list filled"
                           [hidden]="
-                          loanDetailForm.controls.maxLoanAmount.valid || loanDetailForm.controls.maxLoanAmount.untouched
-                        "
+                            loanDetailForm.controls.maxLoanAmount.valid ||
+                            loanDetailForm.controls.maxLoanAmount.untouched
+                          "
                         >
                           <li class="parsley-required"><small>This value is required.</small></li>
                         </ul>
@@ -127,22 +131,32 @@
                       <div class="form-group col-md-6">
                         <label>Loan Type</label>
                         <select class="form-control" name="number" formControlName="loanType">
-                          <option *ngFor="let r of loanType" value="{{r.key}}">{{r.value}}</option>
+                          <option *ngFor="let r of loanType" value="{{ r.key }}">{{ r.value }}</option>
                         </select>
-                        <ul class="parsley-errors-list filled"
+                        <ul
+                          class="parsley-errors-list filled"
                           [hidden]="
-                          loanDetailForm.controls.loanType.valid || loanDetailForm.controls.loanType.untouched">
+                            loanDetailForm.controls.loanType.valid || loanDetailForm.controls.loanType.untouched
+                          "
+                        >
                           <li class="parsley-required"><small>This value is required.</small></li>
                         </ul>
                       </div>
                       <div class="form-group col-md-6">
                         <label>Select Repayment frequency</label>
-                        <select class="form-control" name="number" formControlName="rateType" (change)="setTenor($event.target.value)">
-                          <option *ngFor="let r of rateType" value="{{r.key}}">{{r.value}}</option>
+                        <select
+                          class="form-control"
+                          name="number"
+                          formControlName="rateType"
+                          (change)="setTenor($event.target.value)"
+                        >
+                          <option *ngFor="let r of rateType" value="{{ r.key }}">{{ r.value }}</option>
                         </select>
                         <ul
                           class="parsley-errors-list filled"
-                          [hidden]="loanDetailForm.controls.rateType.valid || loanDetailForm.controls.rateType.untouched"
+                          [hidden]="
+                            loanDetailForm.controls.rateType.valid || loanDetailForm.controls.rateType.untouched
+                          "
                         >
                           <li class="parsley-required"><small>This value is required.</small></li>
                         </ul>
@@ -150,21 +164,29 @@
                     </div>
                     <div class="row">
                       <div class="form-group col-md-6">
-                        <label>Minimum Tenor <small>in {{tenorInWords}}</small></label>
+                        <label
+                          >Minimum Tenor <small>in {{ tenorInWords }}</small></label
+                        >
                         <input class="form-control" name="number" formControlName="minTenor" />
                         <ul
                           class="parsley-errors-list filled"
-                          [hidden]="loanDetailForm.controls.minTenor.valid || loanDetailForm.controls.minTenor.untouched"
+                          [hidden]="
+                            loanDetailForm.controls.minTenor.valid || loanDetailForm.controls.minTenor.untouched
+                          "
                         >
                           <li class="parsley-required"><small>This value is required.</small></li>
                         </ul>
                       </div>
                       <div class="form-group col-md-6">
-                        <label>Maximum Tenor <small>in {{tenorInWords}}</small></label>
+                        <label
+                          >Maximum Tenor <small>in {{ tenorInWords }}</small></label
+                        >
                         <input class="form-control" name="number" formControlName="maxTenor" />
                         <ul
                           class="parsley-errors-list filled"
-                          [hidden]="loanDetailForm.controls.maxTenor.valid || loanDetailForm.controls.maxTenor.untouched"
+                          [hidden]="
+                            loanDetailForm.controls.maxTenor.valid || loanDetailForm.controls.maxTenor.untouched
+                          "
                         >
                           <li class="parsley-required"><small>This value is required.</small></li>
                         </ul>
@@ -177,15 +199,15 @@
                         <ul
                           class="parsley-errors-list filled"
                           [hidden]="
-                          loanDetailForm.controls.interestRate.valid || loanDetailForm.controls.interestRate.untouched
-                        "
+                            loanDetailForm.controls.interestRate.valid || loanDetailForm.controls.interestRate.untouched
+                          "
                         >
                           <li class="parsley-required"><small>This value is required.</small></li>
                         </ul>
                       </div>
                       <div class="form-group col-md-6">
                         <label>Penalty Interest (In %)</label>
-                        <input class="form-control" formControlName="penalty"/>
+                        <input class="form-control" formControlName="penalty" />
                         <ul
                           class="parsley-errors-list filled"
                           [hidden]="loanDetailForm.controls.penalty.valid || loanDetailForm.controls.penalty.untouched"

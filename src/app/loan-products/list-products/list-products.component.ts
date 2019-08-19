@@ -2,8 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LoanProductsService } from '@app/loan-products/loan-products.service';
 import { finalize } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
-import {Logger} from '@app/core/logger.service';
-import {untilDestroyed} from '@app/core/until-destroyed';
+import { Logger } from '@app/core/logger.service';
+import { untilDestroyed } from '@app/core/until-destroyed';
+import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 const log = new Logger('List Product');
 
@@ -26,7 +27,15 @@ export class ListProductsComponent implements OnInit, OnDestroy {
   ];
   public title = 'Create Loan Product';
   public productListObj: any;
-  constructor(private productService: LoanProductsService, private toastr: ToastrService) {}
+
+  modalRef: NgbModalRef;
+  selectedTrans: any;
+
+  constructor(
+    private productService: LoanProductsService,
+    private toastr: ToastrService,
+    private modalService: NgbModal
+  ) {}
 
   ngOnInit() {
     this.getCreatedLoanProducts();
@@ -59,5 +68,19 @@ export class ListProductsComponent implements OnInit, OnDestroy {
           log.error(`userRegistration error: ${err}`);
         }
       );
+  }
+
+  onViewModal(view: any, transaction: any) {
+    this.selectedTrans = transaction;
+    console.log(this.selectedTrans);
+    this.modalRef = this.modalService.open(view, {
+      windowClass: 'search medium',
+      backdrop: true
+    });
+  }
+
+  closeModel(t?: any) {
+    this.selectedTrans = null;
+    this.modalRef.close();
   }
 }

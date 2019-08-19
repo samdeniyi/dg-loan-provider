@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import {HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse} from '@angular/common/http';
+import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { environment } from '@env/environment';
 import { Logger } from '../logger.service';
-import {ToastrService} from 'ngx-toastr';
-import {LogoutService} from '@app/core/authentication/logout.service';
+import { ToastrService } from 'ngx-toastr';
+import { LogoutService } from '@app/core/authentication/logout.service';
 
 const log = new Logger('ErrorHandlerInterceptor');
 /**
@@ -16,7 +16,7 @@ const log = new Logger('ErrorHandlerInterceptor');
   providedIn: 'root'
 })
 export class ErrorHandlerInterceptor implements HttpInterceptor {
-  constructor(private logoutService: LogoutService, private toastr: ToastrService) { }
+  constructor(private logoutService: LogoutService, private toastr: ToastrService) {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(catchError(error => this.errorHandler(error)));
   }
@@ -25,12 +25,10 @@ export class ErrorHandlerInterceptor implements HttpInterceptor {
   private errorHandler(response: HttpErrorResponse): Observable<HttpEvent<any>> {
     if (!environment.production) {
       // Do something with the error
-          if (response.status === 401 || response.status === 504) {
-            this.toastr.error('Your Login had expired', 'ERROR!');
-            this.logoutService
-              .logout()
-              .subscribe();
-          }
+      if (response.status === 401 || response.status === 504) {
+        this.toastr.error('Your Login had expired', 'ERROR!');
+        this.logoutService.logout().subscribe();
+      }
     }
     throw response;
   }

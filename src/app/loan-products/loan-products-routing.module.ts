@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { Shell } from '@app/shell/shell.service';
 import { CreateProductComponent } from '@app/loan-products/create-product/create-product.component';
 import { ListProductsComponent } from '@app/loan-products/list-products/list-products.component';
-import {extract} from '@app/core/i18n.service';
+import { extract } from '@app/core/i18n.service';
 
 const routes: Routes = [
   Shell.childRoutes([

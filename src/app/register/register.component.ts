@@ -4,8 +4,8 @@ import { FormBuilder, FormGroup, RequiredValidator, Validator, Validators } from
 import { EAlertMessageIcon, EAlertMessageType, IAlertMessage } from '@app/shared/alert-message/alert-message.component';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
-import {Logger} from '@app/core/logger.service';
-import {untilDestroyed} from '@app/core/until-destroyed';
+import { Logger } from '@app/core/logger.service';
+import { untilDestroyed } from '@app/core/until-destroyed';
 
 const log = new Logger('Register');
 

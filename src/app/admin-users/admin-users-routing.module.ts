@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { Shell } from '@app/shell/shell.service';
 import { AddUserComponent } from '@app/admin-users/add-user/add-user.component';
 import { ListUsersComponent } from '@app/admin-users/list-users/list-users.component';
-import {extract} from '@app/core/i18n.service';
+import { extract } from '@app/core/i18n.service';
 
 const routes: Routes = [
   Shell.childRoutes([

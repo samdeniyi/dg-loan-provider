@@ -1,9 +1,9 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {LoansService} from '@app/loans/loans.service';
-import {ToastrService} from 'ngx-toastr';
-import {finalize} from 'rxjs/operators';
-import {untilDestroyed} from '@app/core/until-destroyed';
-import {Logger} from '@app/core/logger.service';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { LoansService } from '@app/loans/loans.service';
+import { ToastrService } from 'ngx-toastr';
+import { finalize } from 'rxjs/operators';
+import { untilDestroyed } from '@app/core/until-destroyed';
+import { Logger } from '@app/core/logger.service';
 
 const log = new Logger('Pending Disbursement');
 
@@ -27,23 +27,23 @@ export class PendingDisbursementsComponent implements OnInit, OnDestroy {
     }
   ];
 
-  constructor(private loanService: LoansService, private toastr: ToastrService, private cd: ChangeDetectorRef) { }
+  constructor(private loanService: LoansService, private toastr: ToastrService, private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.getPendingList();
   }
 
-  ngOnDestroy(): void {
-  }
+  ngOnDestroy(): void {}
 
   getPendingList() {
     const panding$ = this.loanService.pendingDisbursements();
-    panding$.pipe(
-      finalize(() => {
-        this.isLoading = false;
-      }),
-      untilDestroyed(this)
-    )
+    panding$
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        }),
+        untilDestroyed(this)
+      )
       .subscribe(
         (res: any) => {
           log.info(`product list response: ${res}`);
@@ -68,14 +68,15 @@ export class PendingDisbursementsComponent implements OnInit, OnDestroy {
       );
   }
 
-  onDisburse(id: number){
-      const disburse$ = this.loanService.disburseloan(id);
-    disburse$.pipe(
-      finalize(() => {
-        this.isLoading = false;
-      }),
-      untilDestroyed(this)
-    )
+  onDisburse(id: number) {
+    const disburse$ = this.loanService.disburseloan(id);
+    disburse$
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        }),
+        untilDestroyed(this)
+      )
       .subscribe(
         (res: any) => {
           log.info(`product list response: ${res}`);
@@ -98,5 +99,4 @@ export class PendingDisbursementsComponent implements OnInit, OnDestroy {
         }
       );
   }
-
 }

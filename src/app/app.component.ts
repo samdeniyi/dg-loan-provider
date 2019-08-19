@@ -6,9 +6,9 @@ import { merge } from 'rxjs';
 import { filter, map, mergeMap } from 'rxjs/operators';
 
 import { environment } from '@env/environment';
-import {Logger} from '@app/core/logger.service';
-import {I18nService} from '@app/core/i18n.service';
-import {untilDestroyed} from '@app/core/until-destroyed';
+import { Logger } from '@app/core/logger.service';
+import { I18nService } from '@app/core/i18n.service';
+import { untilDestroyed } from '@app/core/until-destroyed';
 
 const log = new Logger('App');
 

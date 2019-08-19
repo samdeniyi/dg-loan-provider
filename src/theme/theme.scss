@@ -2,3 +2,69 @@
  * Global application theme.
  * Framework overrides and customization goes here.
  */
+
+.search .modal-content {
+  background: rgba(245, 245, 245, 0.9);
+  height: auto;
+  padding: 2rem 0.5rem;
+}
+
+.large {
+  .modal-dialog {
+    max-width: 80vw;
+    margin: 1.75rem auto;
+  }
+}
+
+.medium {
+  .modal-dialog {
+    max-width: 60vw;
+    margin: 1.75rem auto;
+  }
+}
+
+.small {
+  .modal-dialog {
+    max-width: 40vw;
+    margin: 1.75rem auto;
+  }
+}
+
+.search-close {
+  position: fixed;
+}
+
+.search-close {
+  right: 1rem;
+  top: 1rem;
+  border-radius: 50%;
+  transition: all 0.5s ease-in-out;
+  height: 2rem;
+  width: 2rem;
+  outline: none !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background: $danger;
+    color: #f2f5f8;
+  }
+}
+
+.search .modal-content {
+  background: rgba(245, 245, 245, 0.9);
+  height: auto;
+
+  .title {
+    margin-bottom: 1rem;
+    color: #495057;
+    font-size: 1rem;
+  }
+
+  .sub_title {
+    margin-bottom: 0.5rem;
+    color: #495057;
+    font-size: 1rem;
+  }
+}

@@ -9,8 +9,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import {Logger} from '@app/core/logger.service';
-import {untilDestroyed} from '@app/core/until-destroyed';
+import { Logger } from '@app/core/logger.service';
+import { untilDestroyed } from '@app/core/until-destroyed';
 
 const log = new Logger('Create product');
 
@@ -32,17 +32,14 @@ export class CreateProductComponent implements OnInit, OnDestroy {
   public requiredFieldsObj: IProductRequiredFields;
   public tenorInWords: any;
 
-  public  rateType = [
-    { key: '1', value: 'Days'},
-    { key: '2', value: 'Weeks'},
-    { key: '3', value: 'Months'},
-    { key: '4', value: 'Years'}
+  public rateType = [
+    { key: '1', value: 'Days' },
+    { key: '2', value: 'Weeks' },
+    { key: '3', value: 'Months' },
+    { key: '4', value: 'Years' }
   ];
 
-  public  loanType = [
-    { key: '1', value: 'Secured'},
-    { key: '2', value: 'Unsecured'}
-  ];
+  public loanType = [{ key: '1', value: 'Secured' }, { key: '2', value: 'Unsecured' }];
 
   public breadcrumbItem: any = [
     {
@@ -101,7 +98,7 @@ export class CreateProductComponent implements OnInit, OnDestroy {
       penalty: [null, Validators.required],
       isBVNRequired: [null],
       dob: [null],
-      phoneOnBvn: [null],
+      phoneOnBvn: [null]
     });
   }
 
