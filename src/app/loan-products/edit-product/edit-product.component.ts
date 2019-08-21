@@ -8,7 +8,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Logger } from '@app/core/logger.service';
 import { untilDestroyed } from '@app/core/until-destroyed';
 import { LoaderService } from '@app/shared/loader/loader.service';
@@ -16,13 +16,13 @@ import { LoaderService } from '@app/shared/loader/loader.service';
 const log = new Logger('Create product');
 
 @Component({
-  selector: 'app-create-product',
-  templateUrl: './create-product.component.html',
-  styleUrls: ['./create-product.component.scss']
+  selector: 'app-edit-product',
+  templateUrl: './edit-product.component.html',
+  styleUrls: ['./edit-product.component.scss']
 })
-export class CreateProductComponent implements OnInit, OnDestroy {
+export class EditProductComponent implements OnInit, OnDestroy {
   public activeTab = '';
-  public title = 'Create Loan Product';
+  public title = 'Edit Loan Product';
   public isLoading = false;
   public loanDetailObj: IProductDetail;
   public loanDetailForm: FormGroup;
@@ -48,7 +48,7 @@ export class CreateProductComponent implements OnInit, OnDestroy {
       cssClass: ''
     },
     {
-      title: 'Create loan product',
+      title: 'Edit loan product',
       cssClass: 'active'
     }
   ];
@@ -57,6 +57,7 @@ export class CreateProductComponent implements OnInit, OnDestroy {
     public productService: LoanProductsService,
     private toastr: ToastrService,
     private router: Router,
+    private route: ActivatedRoute,
     private loaderService: LoaderService
   ) {
     this.getAllFormFiields();
@@ -64,13 +65,13 @@ export class CreateProductComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.createLoanDetailForm();
-    this.loanDetailForm.controls['rateType'].setValue('2');
-    this.loanDetailForm.controls['loanType'].setValue('2');
-    this.loanDetailForm.controls['penalty'].setValue('5');
-    this.loanDetailForm.controls['isBVNRequired'].setValue(false);
-    this.loanDetailForm.controls['dob'].setValue(false);
-    this.loanDetailForm.controls['phoneOnBvn'].setValue(false);
-    this.tenorInWords = this.rateType[1].value;
+
+    this.route.params.subscribe(res => {
+      console.log(res);
+      if (res.id) {
+        this.getProduct(res.id);
+      }
+    });
   }
 
   ngOnDestroy(): void {}
@@ -170,6 +171,59 @@ export class CreateProductComponent implements OnInit, OnDestroy {
     });
   }
 
+  setProductLoanValue(product: any) {
+    console.log('produnt', product);
+    this.loanDetailForm.patchValue({
+      name: product.name,
+      description: product.description,
+      minLoanAmount: product.minLoanAmount,
+      maxLoanAmount: product.maxLoanAmount,
+      minTenor: product.minTenor,
+      maxTenor: product.maxTenor,
+      interestRate: product.interestRate,
+      rateType: product.rateType,
+      loanType: product.loanType,
+      penalty: product.penaltyRate,
+      isBVNRequired: product.isBVNRequired,
+      dob: product.dob ? product.dob : false,
+      phoneOnBvn: product.phoneOnBvn ? product.phoneOnBvn : false
+    });
+  }
+
+  getProduct(id: number) {
+    this.loaderService.show();
+    log.info('create product', this.buildCreateProductPayload());
+    const getProduct$ = this.productService.getEditLoanProduct(id);
+    getProduct$
+      .pipe(
+        finalize(() => {
+          this.loaderService.hide();
+        }),
+        untilDestroyed(this)
+      )
+      .subscribe(
+        (res: any) => {
+          log.info(res);
+          if (res.responseCode === '00') {
+            this.toastr.success(res.message, undefined, {
+              closeButton: true,
+              positionClass: 'toast-top-right'
+            });
+
+            this.setProductLoanValue(res.responseData.product);
+            console.log(res);
+          } else {
+            this.toastr.error(res.message, undefined, {
+              closeButton: true,
+              positionClass: 'toast-top-right'
+            });
+          }
+        },
+        (err: any) => {
+          log.info(err);
+        }
+      );
+  }
   createProduct() {
     this.loaderService.show();
     log.info('create product', this.buildCreateProductPayload());

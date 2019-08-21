@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { Logger } from '@app/core/logger.service';
 import { untilDestroyed } from '@app/core/until-destroyed';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import { LoaderService } from '@app/shared/loader/loader.service';
 
 const log = new Logger('List Product');
 
@@ -34,7 +36,9 @@ export class ListProductsComponent implements OnInit, OnDestroy {
   constructor(
     private productService: LoanProductsService,
     private toastr: ToastrService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private router: Router,
+    private loaderService: LoaderService
   ) {}
 
   ngOnInit() {
@@ -44,11 +48,12 @@ export class ListProductsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   getCreatedLoanProducts() {
+    this.loaderService.show();
     const loanProduct$ = this.productService.getCreatedLoanProducts();
     loanProduct$
       .pipe(
         finalize(() => {
-          this.isLoading = false;
+          this.loaderService.hide();
         }),
         untilDestroyed(this)
       )
@@ -77,6 +82,10 @@ export class ListProductsComponent implements OnInit, OnDestroy {
       windowClass: 'search medium',
       backdrop: true
     });
+  }
+
+  goto(id: number) {
+    this.router.navigate(['/', 'products', id]);
   }
 
   closeModel(t?: any) {

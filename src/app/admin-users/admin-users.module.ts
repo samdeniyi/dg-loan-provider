@@ -7,9 +7,10 @@ import { ListUsersComponent } from './list-users/list-users.component';
 import { ViewUserComponent } from './view-user/view-user.component';
 import { SharedModule } from '@app/shared';
 import { ReactiveFormsModule } from '@angular/forms';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 @NgModule({
-  declarations: [AddUserComponent, ListUsersComponent, ViewUserComponent],
+  declarations: [AddUserComponent, ListUsersComponent, ViewUserComponent, EditUserComponent],
   imports: [CommonModule, SharedModule, ReactiveFormsModule, AdminUsersRoutingModule]
 })
 export class AdminUsersModule {}

@@ -30,7 +30,9 @@ export interface ILoanProduct {
 const routes = {
   getformfields: 'FormField/getformfields',
   createProduct: 'Product/createproduct',
-  getAllProducts: 'Product/GetAllProducts'
+  getAllProducts: 'Product/GetAllProducts',
+  getProduct: 'Product/getproducttoeditbyid',
+  editProduct: 'Product/editproduct'
 };
 
 @Injectable({
@@ -51,5 +53,13 @@ export class LoanProductsService extends BaseService<ILoanProduct> {
 
   getCreatedLoanProducts(): Observable<any> {
     return this.sendGet(this.baseUrl(routes.getAllProducts));
+  }
+
+  getEditLoanProduct(id: any): Observable<any> {
+    return this.sendGet(this.baseUrl(`${routes.getProduct}/${id}`));
+  }
+
+  updateLoanProduct(payload: ILoanProduct): Observable<any> {
+    return this.sendPost(this.baseUrl(routes.editProduct), payload);
   }
 }
