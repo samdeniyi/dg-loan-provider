@@ -125,7 +125,7 @@ export class EditUserComponent implements OnInit, OnDestroy {
 
     if (this.userForm.valid) {
       this.usersService
-        .createAdminUser(this.buildCreateUserPayload(this.userForm.value))
+        .updateAdminUser(this.buildCreateUserPayload(this.userForm.value))
         .pipe(
           finalize(() => {
             this.loaderService.hide();

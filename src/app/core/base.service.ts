@@ -40,6 +40,12 @@ export class BaseService<M> {
       catchError(this.handleError)
     );
   }
+  sendPut(url: any, payload: any): Observable<M> {
+    return this.httpClient.put(url, payload).pipe(
+      map((body: any) => body),
+      catchError(this.handleError)
+    );
+  }
 
   sendDelete(url: any): Observable<M> {
     return this.httpClient.delete(url).pipe(
