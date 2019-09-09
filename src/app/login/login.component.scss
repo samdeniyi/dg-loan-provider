@@ -22,6 +22,32 @@
   border-left: 4px solid theme-color("danger");
 }
 
+.auth-main:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background: none;
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.auth-main::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 400px;
+  height: 100%;
+  z-index: -1;
+  background: linear-gradient(180deg, $client, $client, $client-40) !important;
+  //background: $client;
+}
+
 @include media-breakpoint-down(xs) {
   .container {
     width: 100%;
