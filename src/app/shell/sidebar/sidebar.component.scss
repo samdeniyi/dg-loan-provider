@@ -1,0 +1,20 @@
+#left-sidebar {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  width: 250px;
+  height: calc(100% - 65px);
+  float: left;
+  margin-top: 61px;
+  position: fixed;
+  /*left: 5px;*/
+  background-color: #ffffff;
+  z-index: 9;
+  box-shadow: -5px 1px 15px 0 #898989;
+}
+
+.sidebar-nav .metismenu a {
+  cursor: pointer;
+}

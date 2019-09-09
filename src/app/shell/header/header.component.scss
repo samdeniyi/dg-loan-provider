@@ -2,8 +2,30 @@
 
 .navbar {
   margin-bottom: $spacer;
+  border-bottom: none;
+  background: linear-gradient(45deg, $client, $client-40) !important;
+}
+
+.navbar-fixed-top {
+  top: 0px;
 }
 
 .nav-link.dropdown-toggle {
   cursor: pointer;
+}
+
+.navbar-brand {
+  img {
+    width: 100%;
+  }
+
+  a {
+    display: block;
+    width: 30px;
+  }
+}
+
+.navbar-nav .icon-menu i {
+  font-size: 18px;
+  color: #fff;
 }

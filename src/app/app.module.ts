@@ -20,6 +20,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { VerifyEmailModule } from '@app/verify-email/verify-email.module';
 import { SetpasswordModule } from '@app/setpassword/setpassword.module';
 import { CoreModule } from '@app/core/core.module';
+import { ForgetPasswordModule } from './forget-password/forget-password.module';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { CoreModule } from '@app/core/core.module';
     RegisterModule,
     VerifyEmailModule,
     SetpasswordModule,
+    ForgetPasswordModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],
