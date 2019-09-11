@@ -65,10 +65,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     //     this.quote = quote;
     //   });
 
-    const that = this;
+    /*const that = this;
     setTimeout(function() {
       that.showToastr();
     }, 1000);
+    */
     this.chartIntervals();
   }
 
@@ -79,7 +80,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   showToastr() {
-    this.toastr.info('Hello, welcome to DGPay.', undefined, {
+    this.toastr.info('Hello, welcome to Yego.', undefined, {
       closeButton: true,
       positionClass: 'toast-top-right'
     });
