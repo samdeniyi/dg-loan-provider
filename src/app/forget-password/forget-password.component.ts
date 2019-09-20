@@ -55,7 +55,7 @@ export class ForgetPasswordComponent implements OnInit, OnDestroy {
       .subscribe(
         (res: any) => {
           if (res.responseCode === '00') {
-            this.toastr.success(res.message);
+            this.toastr.success(res.message, 'Please check your mail');
             this.router.navigate([this.route.snapshot.queryParams.redirect || '/'], { replaceUrl: true });
           } else {
             this.toastr.error(res.message);
