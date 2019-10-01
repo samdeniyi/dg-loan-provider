@@ -21,6 +21,7 @@ import { VerifyEmailModule } from '@app/verify-email/verify-email.module';
 import { SetpasswordModule } from '@app/setpassword/setpassword.module';
 import { CoreModule } from '@app/core/core.module';
 import { ForgetPasswordModule } from './forget-password/forget-password.module';
+import { ReportsModule } from './reports/reports.module';
 
 @NgModule({
   imports: [
@@ -42,6 +43,7 @@ import { ForgetPasswordModule } from './forget-password/forget-password.module';
     VerifyEmailModule,
     SetpasswordModule,
     ForgetPasswordModule,
+    ReportsModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],

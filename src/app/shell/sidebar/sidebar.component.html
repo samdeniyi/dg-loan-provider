@@ -119,6 +119,17 @@
                 </li>
               </ul>
             </li>
+
+            <li
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              [ngClass]="{ active: currentActiveMenu == 'reports' }"
+            >
+              <a class="" (click)="activeInactiveMenu('reports')" [routerLink]="['/reports']"
+                ><i class="icon-home"></i> <span>Reports</span></a
+              >
+            </li>
+
             <hr />
           </ul>
         </nav>
