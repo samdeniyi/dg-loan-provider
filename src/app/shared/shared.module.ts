@@ -12,9 +12,10 @@ import { SortableDirective } from '@app/shared/directives/sortable.directive';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { GroupByPipe } from './pipes/group-by.pipe';
+import { MomentModule } from 'ngx-moment';
 
 @NgModule({
-  imports: [CommonModule, NgxEchartsModule, RouterModule, NgbModule, FormsModule],
+  imports: [CommonModule, NgxEchartsModule, RouterModule, NgbModule, FormsModule, MomentModule],
   declarations: [
     LoaderComponent,
     AlertMessageComponent,

@@ -4,16 +4,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 const routes = {
-  approvalList: 'Loan/approvallist',
-  loanApproval: 'Loan/loanapproval',
-  pendingdisbursements: 'Loan/getuserloans',
-  // pendingdisbursements : 'Loan/pendingdisbursements',
-  disburseloan: 'Loan/disburseloan/'
+  loantransactionreport: 'Report/loantransactionreport'
 };
 
-export interface IApproval {
-  loanId: number;
-  approvalStatus: number;
+export interface IReport {
+  startDate: string;
+  endDate: string;
+  transactionType?: 1;
+  transactionReference?: string;
 }
 
 @Injectable({
@@ -24,19 +22,7 @@ export class ReportsService extends BaseService<any> {
     super(http);
   }
 
-  getApprovalList(): Observable<any> {
-    return this.sendGet(this.baseUrl(routes.approvalList), true);
-  }
-
-  pendingDisbursements(): Observable<any> {
-    return this.sendGet(this.baseUrl(routes.pendingdisbursements), true);
-  }
-
-  approveLoan(payload: IApproval): Observable<any> {
-    return this.sendPost(this.baseUrl(routes.loanApproval), payload);
-  }
-
-  disburseloan(id: number): Observable<any> {
-    return this.sendPost(this.baseUrl(routes.disburseloan + id), {});
+  loanTransactionReport(payload: IReport): Observable<any> {
+    return this.sendPost(this.baseUrl(routes.loantransactionreport), payload);
   }
 }

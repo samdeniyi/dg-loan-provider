@@ -171,3 +171,22 @@ a {
   width: 40%;
   margin: auto;
 }
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  border-radius: 50%;
+
+  &.processing {
+    background: #f3ad06;
+  }
+
+  &.successful {
+    background: #28a745;
+  }
+
+  &.failed {
+    background: #dc3545;
+  }
+}
