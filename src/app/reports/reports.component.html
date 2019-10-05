@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <app-block-header [title]="title" [breadcrumbItem]="breadcrumbItem"></app-block-header>
 
-  <div class="row clearfix">
+  <div class="row clearfix d-none">
     <div class="col-lg-4">
       <div class="card">
         <div class="header pb-0">
@@ -67,7 +67,7 @@
               </tr>
             </tbody>
           </table>
-          <nav aria-label="Page navigation example">
+          <nav aria-label="Page navigation example d-none">
             <ul class="pagination">
               <li class="page-item" (click)="selectPage(currentPage - 1, $event)" disabled="(currentPage - range) > 1">
                 <a class="page-link" href="javascript:void(0)" (click)="cancelEvent($event)">Previous</a>
