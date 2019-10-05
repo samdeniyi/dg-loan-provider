@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
 const routes = {
   approvalList: 'Loan/approvallist',
   loanApproval: 'Loan/loanapproval',
-  pendingdisbursements: 'Loan/getuserloans',
-  // pendingdisbursements : 'Loan/pendingdisbursements',
+  // pendingdisbursements: 'Loan/getuserloans',
+  pendingdisbursements: 'Loan/pendingdisbursements',
   disburseloan: 'Loan/disburseloan/'
 };
 
