@@ -5,9 +5,9 @@ import { ReportsRoutingModule } from './reports-routing.module';
 import { ReportsComponent } from './reports.component';
 import { MomentModule } from 'ngx-moment';
 import { ChartsModule } from 'ng2-charts';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [ReportsComponent],
-  imports: [CommonModule, ReportsRoutingModule, SharedModule, MomentModule, ChartsModule]
+  imports: [CommonModule, ReportsRoutingModule, SharedModule, MomentModule, ChartsModule, NgbModule]
 })
 export class ReportsModule {}

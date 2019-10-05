@@ -153,4 +153,9 @@ export class ReportsComponent implements OnInit {
   cancelEvent(event: any) {
     event.preventDefault();
   }
+
+  onDateSelect(event: any) {
+    const mydate = new Date('2019-08-01');
+    console.log(mydate);
+  }
 }
