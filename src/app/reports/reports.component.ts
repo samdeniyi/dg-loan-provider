@@ -10,6 +10,7 @@ import { Observable, range } from 'rxjs';
 
 import { ChartType, ChartOptions } from 'chart.js';
 import { Label } from 'ng2-charts';
+import { ExportService } from '@app/shared/export.service';
 // import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 
 const log = new Logger('home');
@@ -22,6 +23,7 @@ const log = new Logger('home');
 export class ReportsComponent implements OnInit {
   isLoading = false;
   loanTransactionReports: any[] = [];
+  loanReports: any[] = [];
 
   public sidebarVisible = true;
   public title = 'Reports';
@@ -66,10 +68,13 @@ export class ReportsComponent implements OnInit {
     }
   ];
 
-  constructor(private reportsService: ReportsService) {}
+  startDate: string = '';
+  endDate: string = '';
+
+  constructor(private reportsService: ReportsService, private exportService: ExportService) {}
 
   ngOnInit() {
-    this.getLoanTransactionReport();
+    // this.getLoanTransactionReport();
     // this.getPages(this.offset, this.limit, this.size);
   }
 
@@ -77,12 +82,50 @@ export class ReportsComponent implements OnInit {
     this.getPages(this.offset, this.limit, this.size);
   }
 
-  getLoanTransactionReport() {
+  onSubmit() {
+    if (this.startDate === '' || this.endDate === '') return;
+
+    this.getLoanReport(this.startDate, this.endDate);
+    this.getLoanTransactionReport(this.startDate, this.endDate);
+  }
+
+  getLoanReport(startDate: string, endDate: string) {
     this.isLoading = true;
 
     const dates = {
-      startDate: '01-08-2019',
-      endDate: '2019-08-01'
+      startDate,
+      endDate
+    };
+
+    this.reportsService
+      .loanReport(dates)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
+      .subscribe(
+        (res: any) => {
+          if (res.responseCode === '00') {
+            this.loanReports = res.responseData;
+            console.log('Loan Report', res.responseData);
+            // this.size = this.loanReports.length;
+            // this.getPages(this.offset, this.limit, this.size);
+          } else {
+            console.error(res.message);
+          }
+        },
+        (error: any) => {
+          console.error(error);
+        }
+      );
+  }
+  getLoanTransactionReport(startDate: string, endDate: string) {
+    this.isLoading = true;
+
+    const dates = {
+      startDate,
+      endDate
     };
 
     this.reportsService
@@ -97,8 +140,8 @@ export class ReportsComponent implements OnInit {
           if (res.responseCode === '00') {
             this.loanTransactionReports = res.responseData;
             console.log(res.responseData);
-            this.size = this.loanTransactionReports.length;
-            this.getPages(this.offset, this.limit, this.size);
+            // this.size = this.loanTransactionReports.length;
+            // this.getPages(this.offset, this.limit, this.size);
           } else {
             console.error(res.message);
           }
@@ -154,8 +197,18 @@ export class ReportsComponent implements OnInit {
     event.preventDefault();
   }
 
-  onDateSelect(event: any) {
-    const mydate = new Date('2019-08-01');
-    console.log(mydate);
+  onDateSelect(event: any, type: string) {
+    if (type === 'from') {
+      this.startDate = `${event.year}-${event.month}-${event.day}`;
+      console.log(this.startDate);
+    } else {
+      this.endDate = `${event.year}-${event.month}-${event.day}`;
+      console.log(this.endDate);
+    }
+  }
+
+  /* ---------- EXPORT ---------- */
+  public onExport(Data: any[], title: string) {
+    this.exportService.export(Data, title);
   }
 }

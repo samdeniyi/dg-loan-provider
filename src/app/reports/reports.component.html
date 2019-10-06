@@ -7,13 +7,14 @@
       <div class="card">
         <div class="body d-flex justify-content-around align-items-center">
           <div class="from_date">
-            <input type="text" ngbDatepicker #from="ngbDatepicker" (dateSelect)="onDateSelect($event)" />
+            <input type="text" ngbDatepicker #from="ngbDatepicker" (dateSelect)="onDateSelect($event, 'from')" />
             <button (click)="from.toggle()">From</button>
           </div>
           <div class="to_date">
-            <input type="text" ngbDatepicker #to="ngbDatepicker" />
+            <input type="text" ngbDatepicker #to="ngbDatepicker" (dateSelect)="onDateSelect($event, 'to')" />
             <button (click)="to.toggle()">To</button>
           </div>
+          <button class="btn btn-client btn-lg" (click)="onSubmit()">Submit</button>
           <h3 class="date-range">Select a date range to view report</h3>
         </div>
       </div>
@@ -42,8 +43,83 @@
   <div class="row clearfix">
     <div class="col-lg-12">
       <div class="card">
-        <div class="header">
+        <div class="header d-flex justify-content-between align-items-center pb-0">
           <h2>Loan Transactions</h2>
+          <button
+            class="btn btn-link btn-sm float-right"
+            (click)="onExport(loanTransactionReports, 'Loan Transactions')"
+          >
+            Export
+          </button>
+        </div>
+
+        <div class="body table-responsive">
+          <table class="table" *ngIf="loanTransactionReports && loanTransactionReports.length > 0">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Transaction Reference</th>
+                <th>Amount</th>
+                <th>Transaction Type</th>
+                <th>Transaction Status</th>
+                <th>Fee</th>
+                <th>Loan Applicant</th>
+                <th>Product Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let loanTransactionReport of loanTransactionReports; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ loanTransactionReport.date | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm' }}</td>
+                <td>{{ loanTransactionReport.transactionReference }}</td>
+                <td>{{ loanTransactionReport.amount }}</td>
+                <td>{{ loanTransactionReport.transactionType }}</td>
+                <td>
+                  <span class="indicator" [ngClass]="transStatus(loanTransactionReport.transactionStatus)"></span>
+                  {{ loanTransactionReport.transactionStatus }}
+                </td>
+                <td>{{ loanTransactionReport.fee }}</td>
+                <td>{{ loanTransactionReport.loanApplicant }}</td>
+                <td>{{ loanTransactionReport.productName }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <!--
+          <nav aria-label="page navigation d-none">
+            <ul class="pagination">
+              <li class="page-item" (click)="selectPage(currentPage - 1, $event)" disabled="(currentPage - range) > 1">
+                <a class="page-link" href="javascript:void(0)" (click)="cancelEvent($event)">Previous</a>
+              </li>
+              <li class="page-item" *ngFor="let page of pages | async" [class.active]="page == currentPage">
+                <a class="page-link" href="javascript:void(0)" (click)="selectPage(page, $event)">
+                  {{ page }}
+                </a>
+              </li>
+              <li class="page-item" (click)="selectPage(currentPage + 1, $event)">
+                <a class="page-link" href="javascript:void(0)" (click)="cancelEvent($event)">Next</a>
+              </li>
+            </ul>
+          </nav>
+          -->
+          <span *ngIf="isLoading">
+            Loading...
+          </span>
+          <span *ngIf="!isLoading">
+            <h3 class="title" *ngIf="loanTransactionReports && loanTransactionReports.length === 0">No Record Found</h3>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row clearfix">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="header d-flex justify-content-between align-items-center pb-0">
+          <h2>Loans</h2>
+          <button class="btn btn-link btn-sm float-right" (click)="onExport(loanTransactionReports, 'Loans')">
+            Export
+          </button>
         </div>
 
         <div class="body table-responsive">
@@ -63,19 +139,19 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let loanTransactionReport of loanTransactionReports; let i = index">
+              <tr *ngFor="let loanReport of loanReports; let i = index">
                 <th scope="row">{{ i + 1 }}</th>
-                <td>{{ loanTransactionReport.date | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm' }}</td>
-                <td>{{ loanTransactionReport.transactionReference }}</td>
-                <td>{{ loanTransactionReport.amount }}</td>
-                <td>{{ loanTransactionReport.transactionType }}</td>
+                <td>{{ loanReport.date | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm' }}</td>
+                <td>{{ loanReport.transactionReference }}</td>
+                <td>{{ loanReport.amount }}</td>
+                <td>{{ loanReport.transactionType }}</td>
                 <td>
-                  <span class="indicator" [ngClass]="transStatus(loanTransactionReport.transactionStatus)"></span>
-                  {{ loanTransactionReport.transactionStatus }}
+                  <span class="indicator" [ngClass]="transStatus(loanReport.transactionStatus)"></span>
+                  {{ loanReport.transactionStatus }}
                 </td>
-                <td>{{ loanTransactionReport.fee }}</td>
-                <td>{{ loanTransactionReport.loanApplicant }}</td>
-                <td>{{ loanTransactionReport.productName }}</td>
+                <td>{{ loanReport.fee }}</td>
+                <td>{{ loanReport.loanApplicant }}</td>
+                <td>{{ loanReport.productName }}</td>
                 <td></td>
               </tr>
             </tbody>
@@ -97,7 +173,12 @@
             </ul>
           </nav>
           -->
-          <h3 class="title" *ngIf="loanTransactionReports && loanTransactionReports.length === 0">No Record Found</h3>
+          <span *ngIf="isLoading">
+            Loading...
+          </span>
+          <span *ngIf="!isLoading">
+            <h3 class="title" *ngIf="loanReports && loanReports.length === 0">No Record Found</h3>
+          </span>
         </div>
       </div>
     </div>
