@@ -11,6 +11,8 @@ import { untilDestroyed } from '@app/core/until-destroyed';
 import { finalize } from 'rxjs/operators';
 import { pick } from '@app/helper';
 import { AdminUsersService } from '@app/admin-users/admin-users.service';
+import { ExportService } from '@app/shared/export.service';
+import { ReportsService } from '@app/reports/reports.service';
 
 const log = new Logger('home');
 
@@ -52,11 +54,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   approvalListObj: any[] = [];
   userObj: any[] = [];
 
+  loanTransactionReports: any[] = [];
+
   constructor(
     private cdr: ChangeDetectorRef,
     private toastr: ToastrService,
     private loanService: LoansService,
     private adminUsersService: AdminUsersService,
+    private reportsService: ReportsService,
+    private exportService: ExportService,
     private cd: ChangeDetectorRef
   ) {
     this.earningOptions = this.loadLineAreaChartOptions([1, 4, 1, 3, 7, 1], '#f79647', '#fac091');
@@ -72,6 +78,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.getPendingList();
     this.getApprovalList();
     this.getAdminUser();
+    const date = new Date();
+    const today = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+
+    console.log(today);
+    this.getLoanTransactionReport(today, today);
   }
 
   ngOnDestroy() {
@@ -305,6 +316,38 @@ export class HomeComponent implements OnInit, OnDestroy {
           }
         },
         (err: any) => {}
+      );
+  }
+
+  getLoanTransactionReport(startDate: string, endDate: string) {
+    this.isLoading = true;
+
+    const dates = {
+      startDate,
+      endDate
+    };
+
+    this.reportsService
+      .loanTransactionReport(dates)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
+      .subscribe(
+        (res: any) => {
+          if (res.responseCode === '00') {
+            this.loanTransactionReports = res.responseData;
+            console.log(res.responseData);
+            // this.size = this.loanTransactionReports.length;
+            // this.getPages(this.offset, this.limit, this.size);
+          } else {
+            console.error(res.message);
+          }
+        },
+        (error: any) => {
+          console.error(error);
+        }
       );
   }
 }

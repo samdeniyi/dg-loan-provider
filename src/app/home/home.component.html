@@ -36,6 +36,62 @@
   </div>
 
   <div class="row clearfix">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="header d-flex justify-content-between align-items-center pb-0">
+          <h2>Loan Transactions</h2>
+          <button
+            class="btn btn-link btn-sm float-right"
+            (click)="onExport(loanTransactionReports, 'Loan Transactions')"
+          >
+            Export
+          </button>
+        </div>
+
+        <div class="body table-responsive">
+          <table class="table" *ngIf="loanTransactionReports && loanTransactionReports.length > 0">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Transaction Reference</th>
+                <th>Amount</th>
+                <th>Transaction Type</th>
+                <th>Transaction Status</th>
+                <th>Fee</th>
+                <th>Loan Applicant</th>
+                <th>Product Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let loanTransactionReport of loanTransactionReports; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ loanTransactionReport.date | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm' }}</td>
+                <td>{{ loanTransactionReport.transactionReference }}</td>
+                <td>{{ loanTransactionReport.amount }}</td>
+                <td>{{ loanTransactionReport.transactionType }}</td>
+                <td>
+                  <span class="indicator" [ngClass]="transStatus(loanTransactionReport.transactionStatus)"></span>
+                  {{ loanTransactionReport.transactionStatus }}
+                </td>
+                <td>{{ loanTransactionReport.fee }}</td>
+                <td>{{ loanTransactionReport.loanApplicant }}</td>
+                <td>{{ loanTransactionReport.productName }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <span *ngIf="isLoading">
+            Loading...
+          </span>
+          <span *ngIf="!isLoading">
+            <h3 class="title" *ngIf="loanTransactionReports && loanTransactionReports.length === 0">No Transaction</h3>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row clearfix">
     <!-- Products -->
     <div class="col-lg-6 col-md-12">
       <app-top-products></app-top-products>
