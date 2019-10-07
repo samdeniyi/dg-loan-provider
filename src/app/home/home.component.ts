@@ -350,4 +350,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
       );
   }
+
+  /* ---------- EXPORT ---------- */
+  public onExport(Data: any[], title: string) {
+    this.exportService.export(Data, title);
+  }
 }
