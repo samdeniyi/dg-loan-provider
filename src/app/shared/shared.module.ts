@@ -13,11 +13,13 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { GroupByPipe } from './pipes/group-by.pipe';
 import { MomentModule } from 'ngx-moment';
+import { SectionLoaderComponent } from './section-loader/section-loader.component';
 
 @NgModule({
   imports: [CommonModule, NgxEchartsModule, RouterModule, NgbModule, FormsModule, MomentModule],
   declarations: [
     LoaderComponent,
+    SectionLoaderComponent,
     AlertMessageComponent,
     ActivityPostComponent,
     BlockHeaderComponent,
@@ -27,6 +29,7 @@ import { MomentModule } from 'ngx-moment';
   ],
   exports: [
     LoaderComponent,
+    SectionLoaderComponent,
     AlertMessageComponent,
     ActivityPostComponent,
     BlockHeaderComponent,

@@ -54,6 +54,15 @@ export class BaseService<M> {
     );
   }
 
+  getFormMode() {
+    return {
+      CREATE: 'CREATE',
+      VIEW: 'VIEW',
+      UPDATE: 'UPDATE',
+      DELETE: 'DELETE'
+    };
+  }
+
   baseUrl(url: string) {
     return environment.serverUrl + url;
   }

@@ -70,6 +70,7 @@ export class ReportsComponent implements OnInit {
 
   startDate: string = '';
   endDate: string = '';
+  reportTypes: string = '';
 
   constructor(private reportsService: ReportsService, private exportService: ExportService) {}
 
@@ -85,8 +86,11 @@ export class ReportsComponent implements OnInit {
   onSubmit() {
     if (this.startDate === '' || this.endDate === '') return;
 
-    this.getLoanReport(this.startDate, this.endDate);
-    this.getLoanTransactionReport(this.startDate, this.endDate);
+    if (this.reportTypes === 'loanTransactionReport') {
+      this.getLoanTransactionReport(this.startDate, this.endDate);
+    } else {
+      this.getLoanReport(this.startDate, this.endDate);
+    }
   }
 
   getLoanReport(startDate: string, endDate: string) {
@@ -205,6 +209,11 @@ export class ReportsComponent implements OnInit {
       this.endDate = `${event.year}-${event.month}-${event.day}`;
       console.log(this.endDate);
     }
+  }
+
+  onSelectType(event: any) {
+    this.reportTypes = event.value;
+    console.log('this.reportTypes', this.reportTypes);
   }
 
   /* ---------- EXPORT ---------- */
