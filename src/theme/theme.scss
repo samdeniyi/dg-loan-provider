@@ -4,10 +4,38 @@
  */
 @import "src/theme/theme-variables";
 
-.search .modal-content {
-  background: rgba(245, 245, 245, 0.9);
-  height: auto;
-  padding: 2rem 0.5rem;
+.search {
+  overflow: hidden;
+  width: 100hw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.95);
+
+  .modal-content {
+    background: rgba(245, 245, 245, 0.9);
+    padding: 3rem;
+    height: 100%;
+
+    .title {
+      margin-bottom: 1rem;
+      color: #495057;
+      font-size: 1rem;
+    }
+
+    .sub_title {
+      margin-bottom: 0.5rem;
+      color: #495057;
+      font-size: 1rem;
+    }
+  }
+}
+
+.search {
+  .modal-dialog {
+    margin: 0;
+    max-width: 100%;
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .large {
@@ -33,8 +61,20 @@
 
 .search-close {
   position: fixed;
+  z-index: 9000;
+  /* top: 19px; */
+  right: 70px;
+  margin: 0;
+  padding: 0;
+  cursor: pointer;
+  border: none;
+  background: #f2f2f2;
+  padding: 15px;
+  border-radius: 50px;
+  line-height: 1;
 }
 
+/*
 .search-close {
   right: 1rem;
   top: 1rem;
@@ -51,22 +91,29 @@
     background: $danger;
     color: #f2f5f8;
   }
-}
+}*/
 
-.search .modal-content {
-  background: rgba(245, 245, 245, 0.9);
-  height: auto;
-
-  .title {
-    margin-bottom: 1rem;
-    color: #495057;
-    font-size: 1rem;
+.search {
+  .card .card-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    font-family: "Montserrat", Helvetica, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.02rem;
+    font-size: 13px;
+    background: transparent;
+    color: #000;
+    border-top-left-radius: 0.125rem;
+    border-top-right-radius: 0.125rem;
   }
 
-  .sub_title {
-    margin-bottom: 0.5rem;
-    color: #495057;
-    font-size: 1rem;
+  .card-header {
+    padding: 0.75rem 0;
+    margin-bottom: 0;
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
   }
 }
 
