@@ -129,6 +129,15 @@
                 ><i class="icon-bar-chart"></i> <span>Reports</span></a
               >
             </li>
+            <li
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              [ngClass]="{ active: currentActiveMenu == 'Roles' }"
+            >
+              <a class="" (click)="activeInactiveMenu('reports')" [routerLink]="['/roles']"
+                ><i class="icon-key"></i> <span>Roles</span></a
+              >
+            </li>
 
             <hr />
           </ul>

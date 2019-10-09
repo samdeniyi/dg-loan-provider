@@ -78,7 +78,9 @@
             Loading...
           </span>
           <span *ngIf="!isLoading">
-            <h3 class="title" *ngIf="loanTransactionReports && loanTransactionReports.length === 0">No Transaction</h3>
+            <h3 class="title" *ngIf="loanTransactionReports && loanTransactionReports.length === 0">
+              No transaction has been made today
+            </h3>
           </span>
         </div>
       </div>
