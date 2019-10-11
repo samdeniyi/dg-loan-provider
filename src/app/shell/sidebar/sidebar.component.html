@@ -126,16 +126,25 @@
               [ngClass]="{ active: currentActiveMenu == 'reports' }"
             >
               <a class="" (click)="activeInactiveMenu('reports')" [routerLink]="['/reports']"
-                ><i class="icon-bar-chart"></i> <span>Reports</span></a
+                ><i class="icon-bar-chart"></i> <span>Report</span></a
               >
             </li>
             <li
               routerLinkActive="active"
               [routerLinkActiveOptions]="{ exact: true }"
-              [ngClass]="{ active: currentActiveMenu == 'Roles' }"
+              [ngClass]="{ active: currentActiveMenu == 'Role' }"
             >
-              <a class="" (click)="activeInactiveMenu('reports')" [routerLink]="['/roles']"
-                ><i class="icon-key"></i> <span>Roles</span></a
+              <a class="" (click)="activeInactiveMenu('report')" [routerLink]="['/role']"
+                ><i class="icon-key"></i> <span>Role</span></a
+              >
+            </li>
+            <li
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              [ngClass]="{ active: currentActiveMenu == 'Permission' }"
+            >
+              <a class="" (click)="activeInactiveMenu('permission')" [routerLink]="['/permission']"
+                ><i class="icon-key"></i> <span>Permission</span></a
               >
             </li>
 
