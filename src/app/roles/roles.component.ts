@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
-import EChartOption = echarts.EChartOption;
 import { ToastrService } from 'ngx-toastr';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Logger } from '@app/core/logger.service';
 import { RolesService } from './roles.service';
-import { finalize, map, filter, toArray } from 'rxjs/operators';
-import { Observable, range } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { removeDeletedItem, componentError, serverError } from '@app/helper';

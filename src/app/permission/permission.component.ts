@@ -42,7 +42,7 @@ export class PermissionComponent implements OnInit {
   formloader: boolean;
 
   constructor(
-    private PermissionService: PermissionService,
+    private permissionService: PermissionService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private toastr: ToastrService
@@ -58,10 +58,10 @@ export class PermissionComponent implements OnInit {
     this.formloader = true;
     if (this.permissionForm.valid) {
       switch (this.formMode) {
-        case this.PermissionService.getFormMode().CREATE:
+        case this.permissionService.getFormMode().CREATE:
           this.onCreate(this.permissionForm.value);
           break;
-        case this.PermissionService.getFormMode().UPDATE:
+        case this.permissionService.getFormMode().UPDATE:
           this.onUpdate(this.permissionForm.value);
           break;
       }
@@ -71,7 +71,8 @@ export class PermissionComponent implements OnInit {
   getPermission() {
     this.isLoading = true;
 
-    this.PermissionService.getpermissions()
+    this.permissionService
+      .getpermissions()
       .pipe(
         finalize(() => {
           this.isLoading = false;
@@ -92,7 +93,8 @@ export class PermissionComponent implements OnInit {
   }
 
   onCreate(payload: any) {
-    this.PermissionService.createpermission(payload)
+    this.permissionService
+      .createpermission(payload)
       .pipe(
         finalize(() => {
           this.formloader = false;
@@ -115,7 +117,8 @@ export class PermissionComponent implements OnInit {
   onUpdate(payload: any) {
     payload.id = this.selectedRow.id;
 
-    this.PermissionService.updatepermission(payload)
+    this.permissionService
+      .updatepermission(payload)
       .pipe(
         finalize(() => {
           this.formloader = false;
@@ -138,7 +141,7 @@ export class PermissionComponent implements OnInit {
   onViewModal(modal: any) {
     this.modalTitle = 'Add New Permission';
 
-    this.formMode = this.PermissionService.getFormMode().CREATE;
+    this.formMode = this.permissionService.getFormMode().CREATE;
     this.createForm();
     this.modalRef = this.modalService.open(modal, {
       windowClass: 'search',
@@ -147,7 +150,7 @@ export class PermissionComponent implements OnInit {
   }
 
   onViewRow(event: any, Permission: any, viewRole?: string) {
-    this.formMode = this.PermissionService.getFormMode().UPDATE;
+    this.formMode = this.permissionService.getFormMode().UPDATE;
     this.selectedRow = event;
     this.selectedRowId = this.selectedRow.id;
     this.modalTitle = `Update Role - ${this.selectedRow.name}`;
@@ -156,7 +159,7 @@ export class PermissionComponent implements OnInit {
     console.log(this.selectedRow);
     if (viewRole === 'VIEW') {
       this.createForm(viewRole);
-      this.formMode = this.PermissionService.getFormMode().VIEW;
+      this.formMode = this.permissionService.getFormMode().VIEW;
       this.modalTitle = `View Role - ${this.selectedRow.name}`;
     }
 
@@ -182,7 +185,9 @@ export class PermissionComponent implements OnInit {
 
   onDoDelete(event: any) {
     this.formloader = true;
-    this.PermissionService.deletepermission(this.selectedRow.id)
+    console.log('this.selectedRow.id', this.selectedRow);
+    this.permissionService
+      .deletepermission({ id: this.selectedRow.id })
       .pipe(
         finalize(() => {
           this.formloader = false;
@@ -204,7 +209,7 @@ export class PermissionComponent implements OnInit {
   }
 
   resetFormMode() {
-    this.formMode = this.PermissionService.getFormMode().CREATE;
+    this.formMode = this.permissionService.getFormMode().CREATE;
   }
 
   createForm(formMode: any = null) {

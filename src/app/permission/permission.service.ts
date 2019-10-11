@@ -37,8 +37,8 @@ export class PermissionService extends BaseService<any> {
     return this.sendPost(this.baseUrl(routes.updatepermission), payload);
   }
 
-  deletepermission(id: number): Observable<any> {
-    return this.sendDelete(this.baseUrl(`${routes.deletepermission}/${id}`));
+  deletepermission(data: any): Observable<any> {
+    return this.sendPost(this.baseUrl(`${routes.deletepermission}`), data);
   }
 
   getpermissionbyid(id: number): Observable<any> {
