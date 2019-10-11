@@ -4,7 +4,7 @@ import EChartOption = echarts.EChartOption;
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Logger } from '@app/core/logger.service';
-import { RolesService } from './roles.service';
+import { PermissionService } from './permission.service';
 import { finalize, map, filter, toArray } from 'rxjs/operators';
 import { Observable, range } from 'rxjs';
 import { NgbModalRef, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,28 +14,27 @@ import { removeDeletedItem, componentError, serverError } from '@app/helper';
 const log = new Logger('home');
 
 @Component({
-  selector: 'app-roles',
-  templateUrl: './roles.component.html',
-  styleUrls: ['./roles.component.scss']
+  selector: 'app-permission',
+  templateUrl: './permission.component.html',
+  styleUrls: ['./permission.component.scss']
 })
-export class RolesComponent implements OnInit {
+export class PermissionComponent implements OnInit {
   isLoading = false;
-  roles: any[] = [];
-  rolePermissions: any[] = [];
-  modalTitle = 'Add New Role';
-  pageTitle = 'Roles';
+  permissions: any[] = [];
+  modalTitle = 'Add New Permission';
+  pageTitle = 'Permission';
   modalRef: NgbModalRef;
   doDeleteModalRef: NgbModalRef;
   formMode: any;
   selectedRowId: number;
   selectedRow: any;
-  rolesForm: FormGroup;
+  permissionForm: FormGroup;
 
   public sidebarVisible = true;
-  public title = 'Roles';
+  public title = 'Permission';
   public breadcrumbItem: any = [
     {
-      title: 'Roles',
+      title: 'Permission',
       cssClass: 'active'
     }
   ];
@@ -43,37 +42,36 @@ export class RolesComponent implements OnInit {
   formloader: boolean;
 
   constructor(
-    private rolesService: RolesService,
+    private PermissionService: PermissionService,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private toastr: ToastrService
   ) {}
 
   ngOnInit() {
-    this.getRoles();
+    this.getPermission();
   }
 
   ngOnChanges() {}
 
   onSubmit() {
     this.formloader = true;
-    if (this.rolesForm.valid) {
+    if (this.permissionForm.valid) {
       switch (this.formMode) {
-        case this.rolesService.getFormMode().CREATE:
-          this.onCreate(this.rolesForm.value);
+        case this.PermissionService.getFormMode().CREATE:
+          this.onCreate(this.permissionForm.value);
           break;
-        case this.rolesService.getFormMode().UPDATE:
-          this.onUpdate(this.rolesForm.value);
+        case this.PermissionService.getFormMode().UPDATE:
+          this.onUpdate(this.permissionForm.value);
           break;
       }
     }
   }
 
-  getRoles() {
+  getPermission() {
     this.isLoading = true;
 
-    this.rolesService
-      .getroles()
+    this.PermissionService.getpermissions()
       .pipe(
         finalize(() => {
           this.isLoading = false;
@@ -82,30 +80,7 @@ export class RolesComponent implements OnInit {
       .subscribe(
         (res: any) => {
           if (res.responseCode === '00') {
-            this.roles = res.responseData;
-            console.log(res.responseData);
-          } else {
-            console.error(res.message);
-            componentError(res.message, this.toastr);
-          }
-        },
-        error => serverError(error, this.toastr)
-      );
-  }
-  getRolePermissions() {
-    this.isLoading = true;
-
-    this.rolesService
-      .getrolepermissions()
-      .pipe(
-        finalize(() => {
-          this.isLoading = false;
-        })
-      )
-      .subscribe(
-        (res: any) => {
-          if (res.responseCode === '00') {
-            this.rolePermissions = res.responseData;
+            this.permissions = res.responseData;
             console.log(res.responseData);
           } else {
             console.error(res.message);
@@ -117,8 +92,7 @@ export class RolesComponent implements OnInit {
   }
 
   onCreate(payload: any) {
-    this.rolesService
-      .createrole(payload)
+    this.PermissionService.createpermission(payload)
       .pipe(
         finalize(() => {
           this.formloader = false;
@@ -128,7 +102,7 @@ export class RolesComponent implements OnInit {
       .subscribe(
         res => {
           if (res.responseCode === '00') {
-            this.getRoles();
+            this.getPermission();
             this.toastr.success(res.message, 'SUCCESS');
           } else {
             componentError(res.message, this.toastr);
@@ -141,8 +115,7 @@ export class RolesComponent implements OnInit {
   onUpdate(payload: any) {
     payload.id = this.selectedRow.id;
 
-    this.rolesService
-      .updaterole(payload)
+    this.PermissionService.updatepermission(payload)
       .pipe(
         finalize(() => {
           this.formloader = false;
@@ -152,7 +125,7 @@ export class RolesComponent implements OnInit {
       .subscribe(
         res => {
           if (res.responseCode === '00') {
-            this.getRoles();
+            this.getPermission();
             this.toastr.success(res.message, 'SUCCESS');
           } else {
             componentError(res.message, this.toastr);
@@ -163,11 +136,9 @@ export class RolesComponent implements OnInit {
   }
 
   onViewModal(modal: any) {
-    this.getRolePermissions();
+    this.modalTitle = 'Add New Permission';
 
-    this.modalTitle = 'Add New Role';
-
-    this.formMode = this.rolesService.getFormMode().CREATE;
+    this.formMode = this.PermissionService.getFormMode().CREATE;
     this.createForm();
     this.modalRef = this.modalService.open(modal, {
       windowClass: 'search',
@@ -175,9 +146,8 @@ export class RolesComponent implements OnInit {
     });
   }
 
-  onViewRow(event: any, Roles: any, viewRole?: string) {
-    this.getRolePermissions();
-    this.formMode = this.rolesService.getFormMode().UPDATE;
+  onViewRow(event: any, Permission: any, viewRole?: string) {
+    this.formMode = this.PermissionService.getFormMode().UPDATE;
     this.selectedRow = event;
     this.selectedRowId = this.selectedRow.id;
     this.modalTitle = `Update Role - ${this.selectedRow.name}`;
@@ -186,15 +156,15 @@ export class RolesComponent implements OnInit {
     console.log(this.selectedRow);
     if (viewRole === 'VIEW') {
       this.createForm(viewRole);
-      this.formMode = this.rolesService.getFormMode().VIEW;
+      this.formMode = this.PermissionService.getFormMode().VIEW;
       this.modalTitle = `View Role - ${this.selectedRow.name}`;
     }
 
-    this.rolesForm.patchValue({
+    this.permissionForm.patchValue({
       name: this.selectedRow.name,
       tenantId: this.selectedRow.tenantId
     });
-    this.modalRef = this.modalService.open(Roles, {
+    this.modalRef = this.modalService.open(Permission, {
       windowClass: 'search',
       backdrop: false
     });
@@ -212,8 +182,7 @@ export class RolesComponent implements OnInit {
 
   onDoDelete(event: any) {
     this.formloader = true;
-    this.rolesService
-      .deleteRole(this.selectedRow.id)
+    this.PermissionService.deletepermission(this.selectedRow.id)
       .pipe(
         finalize(() => {
           this.formloader = false;
@@ -224,7 +193,7 @@ export class RolesComponent implements OnInit {
       .subscribe(
         (res: any) => {
           if (res.status === true) {
-            this.roles = removeDeletedItem(this.roles, this.selectedRow.id);
+            this.permissions = removeDeletedItem(this.permissions, this.selectedRow.id);
             this.toastr.success(res.message, 'SUCCESS');
           } else {
             componentError(res, this.toastr);
@@ -235,13 +204,13 @@ export class RolesComponent implements OnInit {
   }
 
   resetFormMode() {
-    this.formMode = this.rolesService.getFormMode().CREATE;
+    this.formMode = this.PermissionService.getFormMode().CREATE;
   }
 
   createForm(formMode: any = null) {
     const isDisabled = formMode === 'VIEW' ? true : false;
 
-    this.rolesForm = this.formBuilder.group({
+    this.permissionForm = this.formBuilder.group({
       name: [{ value: '', disabled: isDisabled }, [Validators.required]]
     });
   }

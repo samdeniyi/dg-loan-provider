@@ -24,6 +24,7 @@ import { ForgetPasswordModule } from './forget-password/forget-password.module';
 import { ReportsModule } from './reports/reports.module';
 import { RolesModule } from './roles/roles.module';
 import { ChartsModule } from 'ng2-charts';
+import { PermissionModule } from './permission/permission.module';
 @NgModule({
   imports: [
     BrowserModule,
@@ -47,6 +48,7 @@ import { ChartsModule } from 'ng2-charts';
     ReportsModule,
     ChartsModule,
     RolesModule,
+    PermissionModule,
     AppRoutingModule // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],
