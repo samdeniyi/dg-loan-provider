@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AdminUsersService, IAdminUser } from '@app/admin-users/admin-users.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import {Logger} from '@app/core/logger.service';
+import { Logger } from '@app/core/logger.service';
 
 const log = new Logger('Admin-user/add-user');
 

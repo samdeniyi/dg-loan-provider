@@ -38,9 +38,20 @@
                   <span>Remember me</span>
                 </label>
               </div>
-              <button type="submit" class="btn btn-primary btn-lg btn-block" [disabled]="!loginForm.valid">
+              <button
+                type="submit"
+                class="btn btn-primary btn-lg btn-block"
+                [disabled]="!loginForm.valid"
+                *ngIf="!isLoading"
+              >
                 LOGIN
               </button>
+
+              <button class="btn btn-primary btn-lg btn-block" [disabled]="true" *ngIf="isLoading">
+                <i class="fa fa-spinner fa-spin" style="margin-right: 5px"></i>
+                logging you in, please wait
+              </button>
+
               <div class="bottom">
                 <span class="helper-text m-b-10"
                   ><i class="fa fa-lock"></i>&nbsp;<a [routerLink]="['/forgot-password']">Forgot password?</a></span

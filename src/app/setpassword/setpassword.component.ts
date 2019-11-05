@@ -5,8 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize } from 'rxjs/operators';
 import { ISetPassword, SetpasswordService } from '@app/setpassword/setpassword.service';
-import {Logger} from '@app/core/logger.service';
-import {untilDestroyed} from '@app/core/until-destroyed';
+import { Logger } from '@app/core/logger.service';
+import { untilDestroyed } from '@app/core/until-destroyed';
 
 const log = new Logger('SetPassword');
 

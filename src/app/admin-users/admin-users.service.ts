@@ -18,7 +18,8 @@ export interface IAdminUser {
 
 const routes = {
   createAdminUser: 'User/createuser',
-  getAdminUsers: 'User/getallusers'
+  getAdminUsers: 'User/getallusers',
+  getuserbyid: 'User/getuserbyid/'
 };
 
 @Injectable({
@@ -34,5 +35,8 @@ export class AdminUsersService extends BaseService<IAdminUser> {
 
   getAdminUsers(): Observable<any> {
     return this.sendGet(this.baseUrl(routes.getAdminUsers));
+  }
+  getUser(id: number): Observable<any> {
+    return this.sendGet(this.baseUrl(`${routes.getuserbyid}?userId=${id}`));
   }
 }

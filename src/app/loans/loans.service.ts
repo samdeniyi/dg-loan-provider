@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import {BaseService} from '@app/core/base.service';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import { BaseService } from '@app/core/base.service';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 const routes = {
-  approvalList : 'Loan/approvallist',
-  loanApproval : 'Loan/loanapproval',
-  pendingdisbursements : 'Loan/getuserloans',
+  approvalList: 'Loan/approvallist',
+  loanApproval: 'Loan/loanapproval',
+  pendingdisbursements: 'Loan/getuserloans',
   // pendingdisbursements : 'Loan/pendingdisbursements',
-  disburseloan : 'Loan/disburseloan/'
+  disburseloan: 'Loan/disburseloan/'
 };
 
 export interface IApprovalList {
@@ -28,12 +28,10 @@ export interface IApproval {
   approvalStatus: number;
 }
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class LoansService extends BaseService<any> {
-
   constructor(public http: HttpClient) {
     super(http);
   }
