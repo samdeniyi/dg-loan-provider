@@ -1,0 +1,34 @@
+.page.navigation {
+  display: none !important;
+}
+
+.date-range {
+  font-size: 18px;
+  color: #0f5411;
+  margin-bottom: 0;
+  padding: 0 5rem;
+}
+
+.title {
+  font-size: 16px;
+  text-align: center;
+  padding: 1rem;
+  color: #1d771d;
+  margin-bottom: 0;
+}
+
+.btn-link {
+  font-weight: 400;
+  color: #1d781d;
+  text-decoration: none;
+
+  &:hover,
+  &:active,
+  &:focus {
+    color: #0f5411;
+  }
+}
+
+.btn-submit {
+  font-size: 12px;
+}

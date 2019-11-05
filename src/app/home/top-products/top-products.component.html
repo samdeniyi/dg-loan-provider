@@ -1,4 +1,40 @@
 <div class="card">
+  <div class="header d-flex justify-content-between align-items-center pb-0">
+    <h2>Top Products</h2>
+    <a class="btn btn-link btn-sm float-right" [routerLink]="['/', 'products', 'list']">View All</a>
+  </div>
+  <div class="body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="body table-responsive" *ngIf="productListObj">
+          <table class="table mb-0">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>NAME</th>
+                <th>MIN LOAN AMOUNT</th>
+                <th>MAX LOAN AMOUNT</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let u of productListObj.reverse(); let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ u.name }}</td>
+                <td>{{ u.minLoanAmount }}</td>
+                <td>{{ u.maxLoanAmount }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="!productListObj">
+          <p class="mb-0">Loading...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card d-none">
   <div class="header">
     <h2>Top Products</h2>
     <app-card-actions></app-card-actions>

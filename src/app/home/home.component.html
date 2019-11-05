@@ -1,13 +1,3 @@
-<!--<div class="container-fluid">-->
-<!--  <div class="jumbotron text-center">-->
-<!--    <h1>-->
-<!--      <img class="logo" src="assets/ngx-rocket-logo.png" alt="angular logo" />-->
-<!--      <span translate>Hello world !</span>-->
-<!--    </h1>-->
-<!--    <app-loader [isLoading]="isLoading"></app-loader>-->
-<!--    <q [hidden]="isLoading">{{ quote }}</q>-->
-<!--  </div>-->
-<!--</div>-->
 <div class="container-fluid">
   <app-block-header [title]="title" [breadcrumbItem]="breadcrumbItem"></app-block-header>
   <div class="row clearfix">
@@ -44,10 +34,236 @@
       ></app-detail-tiles>
     </div>
   </div>
+
   <div class="row clearfix">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="header d-flex justify-content-between align-items-center pb-0">
+          <h2>Loan Transactions</h2>
+        </div>
+
+        <div class="body table-responsive">
+          <table class="table" *ngIf="loanTransactionReports && loanTransactionReports.length > 0">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Date</th>
+                <th>Transaction Reference</th>
+                <th>Amount</th>
+                <th>Transaction Type</th>
+                <th>Transaction Status</th>
+                <th>Fee</th>
+                <th>Loan Applicant</th>
+                <th>Product Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let loanTransactionReport of loanTransactionReports; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ loanTransactionReport.date | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm' }}</td>
+                <td>{{ loanTransactionReport.transactionReference }}</td>
+                <td>{{ loanTransactionReport.amount }}</td>
+                <td>{{ loanTransactionReport.transactionType }}</td>
+                <td>
+                  <span class="indicator" [ngClass]="transStatus(loanTransactionReport.transactionStatus)"></span>
+                  {{ loanTransactionReport.transactionStatus }}
+                </td>
+                <td>{{ loanTransactionReport.fee }}</td>
+                <td>{{ loanTransactionReport.loanApplicant }}</td>
+                <td>{{ loanTransactionReport.productName }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <span *ngIf="isLoading">
+            Loading...
+          </span>
+          <span *ngIf="!isLoading">
+            <h3 class="title" *ngIf="loanTransactionReports && loanTransactionReports.length === 0">
+              No transaction has been made today
+            </h3>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row clearfix">
+    <!-- Products -->
     <div class="col-lg-6 col-md-12">
       <app-top-products></app-top-products>
     </div>
+
+    <!-- USERS -->
+    <div class="col-lg-6 col-md-12">
+      <div class="card">
+        <div class="header d-flex justify-content-between align-items-center pb-0">
+          <h2>New Users</h2>
+          <a class="btn btn-link btn-sm float-right" [routerLink]="['/', 'admin-users', 'view']">View All</a>
+        </div>
+        <div class="body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="body table-responsive" *ngIf="userObj && userObj.length > 0">
+                <table class="table">
+                  <thead class="text-uppercase">
+                    <tr>
+                      <th>#</th>
+                      <th>FIRST NAME</th>
+                      <th>LAST NAME</th>
+                      <th>EMAIL</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let u of userObj; let i = index">
+                      <th scope="row">{{ i + 1 }}</th>
+                      <td>{{ u.firstName }}</td>
+                      <td>{{ u.lastName }}</td>
+                      <td>{{ u.email }}</td>
+                      <td>
+                        <span class="ml-0 badge badge-success bg-success text-white" *ngIf="u.isDisabled === false">
+                          Enabled
+                        </span>
+                        <span class="ml-0 badge badge-danger bg-danger text-white" *ngIf="u.isDisabled === true">
+                          Disabled
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div *ngIf="userObj.length === 0">
+                <p class="mb-0">There are no user registered</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row clearfix">
+    <!-- Approval -->
+    <div class="col-lg-6 col-md-12">
+      <div class="card">
+        <div class="header d-flex justify-content-between align-items-center pb-0">
+          <h2>Loans Awaiting Approval</h2>
+          <a class="btn btn-link btn-sm float-right" [routerLink]="['/', 'loans', 'approvals']">View All</a>
+        </div>
+        <div class="body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="body table-responsive" *ngIf="approvalListObj && approvalListObj.length > 0">
+                <table class="table mb-0">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th data-breakpoints="sm xs">Product Name</th>
+                      <th data-breakpoints="sm xs">Loan Amount</th>
+                      <th data-breakpoints="sm xs">Approval Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let l of approvalListObj.reverse(); let i = index">
+                      <td>{{ i + 1 }}</td>
+                      <td>{{ l.productName }}</td>
+                      <td>{{ l.loanAmount | currency: '₦' }}</td>
+                      <!--                <td>{{l.tenor}}</td>-->
+                      <td>
+                        <span class="badge badge-success bg-success text-white" *ngIf="l.approvalStatus == 1"
+                          ><i class="fa fa-check-circle"></i
+                        ></span>
+                        <span class="badge badge-warning bg-warning text-white" *ngIf="l.approvalStatus == 0"
+                          ><i class="fa fa-times-circle"></i
+                        ></span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div *ngIf="approvalListObj.length === 0">
+                <p class="mb-0">There are no loans awaiting Approval</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending Disbursements -->
+    <div class="col-lg-6 col-md-12">
+      <div class="card">
+        <div class="header d-flex justify-content-between align-items-center pb-0">
+          <h2>Pending Disbursement Loans</h2>
+          <a class="btn btn-link btn-sm float-right" [routerLink]="['/', 'loans', 'pending']">View All</a>
+        </div>
+        <div class="body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="body table-responsive" *ngIf="pendingListObj && pendingListObj.length > 0">
+                <table class="table">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>#</th>
+                      <th data-breakpoints="sm xs">Product Name</th>
+                      <th data-breakpoints="sm xs">Loan Amount</th>
+                      <th>Approval Status</th>
+                      <th data-breakpoints="xs">Disbursed Status</th>
+                      <th data-breakpoints="xs md">Liquidated Status</th>
+                      <th data-breakpoints="xs md">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let l of pendingListObj.reverse(); let i = index">
+                      <td>{{ i + 1 }}</td>
+                      <td>{{ l.productName }}</td>
+                      <td>{{ l.loanAmount | currency: '₦' }}</td>
+                      <!--                <td>{{l.tenor}}</td>-->
+                      <td>
+                        <span class="badge badge-success bg-success text-white" *ngIf="l.approvalStatus == 1"
+                          ><i class="fa fa-check-circle"></i
+                        ></span>
+                        <span class="badge badge-warning bg-warning text-white" *ngIf="l.approvalStatus == 0"
+                          ><i class="fa fa-times-circle"></i
+                        ></span>
+                      </td>
+                      <td>
+                        <span class="badge badge-success bg-success text-white" *ngIf="l.isDisbursed == true"
+                          ><i class="fa fa-check-circle"></i
+                        ></span>
+                        <span class="badge badge-warning bg-warning text-white" *ngIf="l.isDisbursed == false"
+                          ><i class="fa fa-times-circle"></i
+                        ></span>
+                      </td>
+                      <td>
+                        <span class="badge badge-success bg-success text-white" *ngIf="l.isLiquidated == true"
+                          ><i class="fa fa-check-circle"></i
+                        ></span>
+                        <span class="badge badge-warning bg-warning text-white" *ngIf="l.isLiquidated == false"
+                          ><i class="fa fa-times-circle"></i
+                        ></span>
+                      </td>
+                      <td>
+                        <span class="badge badge-dark"> <i class="fa fa-eye"></i> View</span>
+                        <span class="badge badge-info" *ngIf="l.isDisbursed == false" (click)="onDisburse(l.id)">
+                          <i class="fa fa-check"></i> Disburse Loan</span
+                        >
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div *ngIf="pendingListObj.length === 0">
+                <p class="mb-0">There are no Pending Disbursements</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row clearfix d-none">
     <div class="col-lg-3 col-md-6">
       <app-referrals></app-referrals>
     </div>
@@ -55,7 +271,7 @@
       <app-total-revenue></app-total-revenue>
     </div>
   </div>
-  <div class="row clearfix">
+  <div class="row clearfix d-none">
     <div class="col-lg-12">
       <app-activities></app-activities>
     </div>

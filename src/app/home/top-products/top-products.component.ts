@@ -1,20 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 declare var require: any;
 import EChartOption = echarts.EChartOption;
+import { LoaderService } from '@app/shared/loader/loader.service';
+import { LoanProductsService } from '@app/loan-products/loan-products.service';
+import { finalize, take, map } from 'rxjs/operators';
+import { untilDestroyed } from '@app/core/until-destroyed';
+import { Logger } from '@app/core/logger.service';
+import { ToastrService } from 'ngx-toastr';
+import { pick } from '@app/helper';
 
+const log = new Logger('List Product');
 @Component({
   selector: 'app-top-products',
   templateUrl: './top-products.component.html',
   styleUrls: ['./top-products.component.scss']
 })
-export class TopProductsComponent implements OnInit {
+export class TopProductsComponent implements OnInit, OnDestroy {
   public stackedBarChart: EChartOption = {};
+  public productListObj: any[];
 
-  constructor() {
+  constructor(
+    private productService: LoanProductsService,
+    private loaderService: LoaderService,
+    private toastr: ToastrService
+  ) {
     this.stackedBarChart = this.getTopProductChartOptions();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getCreatedLoanProducts();
+  }
+
+  ngOnDestroy() {}
+
   getTopProductChartOptions() {
     const options: EChartOption = {
       tooltip: {
@@ -101,5 +119,33 @@ export class TopProductsComponent implements OnInit {
     };
 
     return options;
+  }
+
+  getCreatedLoanProducts() {
+    this.loaderService.show();
+    const loanProduct$ = this.productService.getCreatedLoanProducts();
+    loanProduct$
+      .pipe(
+        finalize(() => {
+          this.loaderService.hide();
+        }),
+        untilDestroyed(this)
+      )
+      .subscribe(
+        (res: any) => {
+          log.info(`product list response: ${res}`);
+          if (res.responseCode === '00') {
+            this.productListObj = pick(res.responseData, 5);
+          } else {
+            this.toastr.error(res.message, undefined, {
+              closeButton: true,
+              positionClass: 'toast-top-right'
+            });
+          }
+        },
+        err => {
+          log.error(`userRegistration error: ${err}`);
+        }
+      );
   }
 }

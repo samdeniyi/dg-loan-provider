@@ -1,0 +1,20 @@
+<div class="delete">
+  <app-section-loader [isLoading]="loader"></app-section-loader>
+  <div class="card mt-3">
+    <div class="card-header text-center">
+      Are you sure, you want to delete?
+    </div>
+    <div class="card-body text-center">
+      <p>{{ selectedRowData }}</p>
+    </div>
+    <div class="card-footer">
+      <button type="button" class="float-left btn btn-sm btn-outline-danger btn-padding-wide" (click)="onDoDelete()">
+        Delete
+      </button>
+
+      <button type="button" class="float-right btn btn-sm btn-outline-default btn-padding-wide" (click)="cancel()">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>

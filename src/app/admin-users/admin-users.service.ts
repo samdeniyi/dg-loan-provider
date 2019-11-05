@@ -19,7 +19,8 @@ export interface IAdminUser {
 const routes = {
   createAdminUser: 'User/createuser',
   getAdminUsers: 'User/getallusers',
-  getuserbyid: 'User/getuserbyid/'
+  getuserbyid: 'User/getuserbyid/',
+  updateUser: 'User/updateuser'
 };
 
 @Injectable({
@@ -31,6 +32,9 @@ export class AdminUsersService extends BaseService<IAdminUser> {
   }
   createAdminUser(payload: IAdminUser): Observable<any> {
     return this.sendPost(this.baseUrl(routes.createAdminUser), payload);
+  }
+  updateAdminUser(payload: IAdminUser): Observable<any> {
+    return this.sendPatch(this.baseUrl(routes.updateUser), payload);
   }
 
   getAdminUsers(): Observable<any> {

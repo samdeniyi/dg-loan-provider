@@ -1,10 +1,9 @@
 <div id="left-sidebar" class="sidebar" *ngIf="sidebarVisible" style="overflow-y:scroll;">
   <div class="sidebar-scroll">
     <div class="user-account">
-      <img src="assets/images/user.png" class="rounded-circle user-photo" alt="User Profile Picture" />
-      <div class="dropdown" ngbDropdown>
-        <span>Welcome,</span>
-        <a href="javascript:void(0);" class="dropdown-toggle user-name" ngbDropdownToggle
+      <div class="dropdown d-flex align-items-center" ngbDropdown>
+        <img src="assets/images/user.png" class="rounded-circle user-photo" alt="User Profile Picture" />
+        <a href="javascript:void(0);" class="dropdown-toggle user-name"
           ><strong>{{ loggedInUser }} </strong></a
         >
         <ul class="dropdown-menu dropdown-menu-right account" ngbDropdownMenu>
@@ -41,14 +40,14 @@
     </div>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs">
-      <li class="nav-item">
+      <li class="nav-item d-none">
         <a class="nav-link" [ngClass]="{ active: navTab == 'menu' }" (click)="changeNavTab('menu')">Menu</a>
       </li>
       <!--      <li class="nav-item"><a class="nav-link" [ngClass]="{'active':navTab == 'chat'}" (click)="changeNavTab('chat')"><i-->
       <!--        class="icon-book-open"></i></a></li>-->
       <!--      <li class="nav-item"><a class="nav-link" [ngClass]="{'active':navTab == 'setting'}" (click)="changeNavTab('setting')"><i-->
       <!--        class="icon-settings"></i></a></li>-->
-      <li class="nav-item">
+      <li class="nav-item d-none">
         <a class="nav-link" [ngClass]="{ active: navTab == 'question' }" (click)="changeNavTab('question')"
           ><i class="icon-question"></i
         ></a>
@@ -120,6 +119,35 @@
                 </li>
               </ul>
             </li>
+
+            <li
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              [ngClass]="{ active: currentActiveMenu == 'reports' }"
+            >
+              <a class="" (click)="activeInactiveMenu('reports')" [routerLink]="['/reports']"
+                ><i class="icon-bar-chart"></i> <span>Report</span></a
+              >
+            </li>
+            <li
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              [ngClass]="{ active: currentActiveMenu == 'Role' }"
+            >
+              <a class="" (click)="activeInactiveMenu('report')" [routerLink]="['/role']"
+                ><i class="icon-key"></i> <span>Role</span></a
+              >
+            </li>
+            <li
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              [ngClass]="{ active: currentActiveMenu == 'Permission' }"
+            >
+              <a class="" (click)="activeInactiveMenu('permission')" [routerLink]="['/permission']"
+                ><i class="icon-key"></i> <span>Permission</span></a
+              >
+            </li>
+
             <hr />
           </ul>
         </nav>

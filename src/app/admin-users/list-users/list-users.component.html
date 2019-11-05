@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <app-block-header [title]="title" [breadcrumbItem]="breadcrumbItem"></app-block-header>
   <div class="row clearfix">
-    <div class="col-md-10">
+    <div class="col-md-12">
       <div class="card">
         <div class="header">
           <h2>Users List</h2>
@@ -18,15 +18,15 @@
             <div class="col-md-12">
               <div class="body table-responsive" *ngIf="userObj">
                 <table class="table">
-                  <thead>
+                  <thead class="text-uppercase">
                     <tr>
                       <th>#</th>
                       <th>FIRST NAME</th>
                       <th>LAST NAME</th>
                       <th>EMAIL</th>
                       <th>PHONE NUMBER</th>
-                      <th>ROLE</th>
-                      <th></th>
+
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -36,7 +36,7 @@
                       <td>{{ u.lastName }}</td>
                       <td>{{ u.email }}</td>
                       <td>{{ u.phoneNumber }}</td>
-                      <td>{{ u.roleName }}</td>
+
                       <td>
                         <button class="btn btn-sm btn-link" (click)="onViewModal(viewUser, u)">
                           <i class="icon icon-eye text-gray-dark" style="color: #0a0;"></i>

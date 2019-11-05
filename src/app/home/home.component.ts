@@ -6,6 +6,13 @@ import EChartOption = echarts.EChartOption;
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Logger } from '@app/core/logger.service';
+import { LoansService } from '@app/loans/loans.service';
+import { untilDestroyed } from '@app/core/until-destroyed';
+import { finalize } from 'rxjs/operators';
+import { pick } from '@app/helper';
+import { AdminUsersService } from '@app/admin-users/admin-users.service';
+import { ExportService } from '@app/shared/export.service';
+import { ReportsService } from '@app/reports/reports.service';
 
 const log = new Logger('home');
 
@@ -43,8 +50,21 @@ export class HomeComponent implements OnInit, OnDestroy {
   public likes: number = this.LikesOptionsSeries.reduce((a, b) => a + b, 0);
 
   public interval: any = {};
+  pendingListObj: any[] = [];
+  approvalListObj: any[] = [];
+  userObj: any[] = [];
 
-  constructor(private quoteService: QuoteService, private cdr: ChangeDetectorRef, private toastr: ToastrService) {
+  loanTransactionReports: any[] = [];
+
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private toastr: ToastrService,
+    private loanService: LoansService,
+    private adminUsersService: AdminUsersService,
+    private reportsService: ReportsService,
+    private exportService: ExportService,
+    private cd: ChangeDetectorRef
+  ) {
     this.earningOptions = this.loadLineAreaChartOptions([1, 4, 1, 3, 7, 1], '#f79647', '#fac091');
     this.salesOptions = this.loadLineAreaChartOptions([1, 4, 2, 3, 6, 2], '#604a7b', '#a092b0');
     this.visitsAreaOptions = this.loadLineAreaChartOptions([1, 4, 2, 3, 1, 5], '#4aacc5', '#92cddc');
@@ -54,22 +74,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading = true;
-    // this.quoteService
-    //   .getRandomQuote({ category: 'dev' })
-    //   .pipe(
-    //     finalize(() => {
-    //       this.isLoading = false;
-    //     })
-    //   )
-    //   .subscribe((quote: string) => {
-    //     this.quote = quote;
-    //   });
-
-    const that = this;
-    setTimeout(function() {
-      that.showToastr();
-    }, 1000);
     this.chartIntervals();
+    this.getPendingList();
+    this.getApprovalList();
+    this.getAdminUser();
+    const date = new Date();
+    const today = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+
+    console.log(today);
+    this.getLoanTransactionReport(today, today);
   }
 
   ngOnDestroy() {
@@ -79,7 +92,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   showToastr() {
-    this.toastr.info('Hello, welcome to DGPay.', undefined, {
+    this.toastr.info('Hello, welcome to Yego.', undefined, {
       closeButton: true,
       positionClass: 'toast-top-right'
     });
@@ -228,5 +241,118 @@ export class HomeComponent implements OnInit, OnDestroy {
     };
 
     return options;
+  }
+
+  getPendingList() {
+    const panding$ = this.loanService.pendingDisbursements();
+    panding$
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        }),
+        untilDestroyed(this)
+      )
+      .subscribe(
+        (res: any) => {
+          log.info(`product list response: ${res}`);
+
+          if (res.responseCode === '00') {
+            this.pendingListObj = pick(res.responseData).filter((m: any) => m.isDisbursed === false);
+            console.info('getPendingList', this.pendingListObj);
+          } else {
+            this.toastr.error(res.message, undefined, {
+              closeButton: true,
+              positionClass: 'toast-top-right'
+            });
+          }
+        },
+        err => {
+          log.error(`userRegistration error: ${err}`);
+        }
+      );
+  }
+
+  getApprovalList() {
+    const list$ = this.loanService.getApprovalList();
+    list$
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        }),
+        untilDestroyed(this)
+      )
+      .subscribe(
+        (res: any) => {
+          log.info(`product list response: ${res}`);
+          if (res.responseCode === '00') {
+            this.approvalListObj = pick(res.responseData).filter((m: any) => m.approvalStatus === 0);
+          } else {
+            this.toastr.error(res.message, undefined, {
+              closeButton: true,
+              positionClass: 'toast-top-right'
+            });
+          }
+        },
+        err => {
+          log.error(`userRegistration error: ${err}`);
+        }
+      );
+  }
+
+  getAdminUser(): any {
+    const adminUsers$ = this.adminUsersService.getAdminUsers();
+    adminUsers$
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        }),
+        untilDestroyed(this)
+      )
+      .subscribe(
+        (res: any) => {
+          if (res.responseCode === '00') {
+            this.userObj = pick(res.responseData); //.filter((m: any) => m.approvalStatus === 0);
+          } else {
+          }
+        },
+        (err: any) => {}
+      );
+  }
+
+  getLoanTransactionReport(startDate: string, endDate: string) {
+    this.isLoading = true;
+
+    const dates = {
+      startDate,
+      endDate
+    };
+
+    this.reportsService
+      .loanTransactionReport(dates)
+      .pipe(
+        finalize(() => {
+          this.isLoading = false;
+        })
+      )
+      .subscribe(
+        (res: any) => {
+          if (res.responseCode === '00') {
+            this.loanTransactionReports = res.responseData;
+            console.log(res.responseData);
+            // this.size = this.loanTransactionReports.length;
+            // this.getPages(this.offset, this.limit, this.size);
+          } else {
+            console.error(res.message);
+          }
+        },
+        (error: any) => {
+          console.error(error);
+        }
+      );
+  }
+
+  /* ---------- EXPORT ---------- */
+  public onExport(Data: any[], title: string) {
+    this.exportService.export(Data, title);
   }
 }

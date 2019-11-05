@@ -8,6 +8,10 @@ const routes: Routes = [
     loadChildren: './settings/settings.module#SettingsModule'
   },
   {
+    path: 'forgot-password',
+    loadChildren: './forget-password/forget-password.module#ForgetPasswordModule'
+  },
+  {
     path: 'admin-users',
     loadChildren: './admin-users/admin-users.module#AdminUsersModule'
   },

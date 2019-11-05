@@ -14,9 +14,11 @@ import { ReferralsComponent } from './referrals/referrals.component';
 import { TotalRevenueComponent } from './total-revenue/total-revenue.component';
 import { ActivitiesComponent } from './activities/activities.component';
 import { CoreModule } from '@app/core/core.module';
+import { AdminUsersService } from '@app/admin-users/admin-users.service';
+import { MomentModule } from 'ngx-moment';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, CoreModule, SharedModule, HomeRoutingModule, NgxEchartsModule],
+  imports: [CommonModule, TranslateModule, CoreModule, SharedModule, HomeRoutingModule, NgxEchartsModule, MomentModule],
   declarations: [
     HomeComponent,
     DetailTilesComponent,
@@ -26,6 +28,6 @@ import { CoreModule } from '@app/core/core.module';
     TotalRevenueComponent,
     ActivitiesComponent
   ],
-  providers: [QuoteService]
+  providers: [QuoteService, AdminUsersService]
 })
 export class HomeModule {}

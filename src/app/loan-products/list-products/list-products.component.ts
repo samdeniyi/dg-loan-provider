@@ -79,7 +79,7 @@ export class ListProductsComponent implements OnInit, OnDestroy {
     this.selectedTrans = transaction;
     console.log(this.selectedTrans);
     this.modalRef = this.modalService.open(view, {
-      windowClass: 'search medium',
+      windowClass: 'search medium confirm',
       backdrop: true
     });
   }
