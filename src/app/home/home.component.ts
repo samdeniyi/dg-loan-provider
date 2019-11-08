@@ -202,9 +202,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         trigger: 'item'
       },
       grid: {
-        borderWidth: 0,
-        y: 80,
-        y2: 60
+        borderWidth: 0
       },
       xAxis: [
         {
@@ -226,7 +224,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           itemStyle: {
             color: '#7460ee'
           },
-          barWidth: '5px'
+          barWidth: 5
         },
         {
           type: 'bar',
@@ -235,7 +233,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           itemStyle: {
             color: '#afc979'
           },
-          barWidth: '5px'
+          barWidth: 5
         }
       ]
     };
@@ -311,7 +309,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe(
         (res: any) => {
           if (res.responseCode === '00') {
-            this.userObj = pick(res.responseData); //.filter((m: any) => m.approvalStatus === 0);
+            this.userObj = pick(res.responseData); // .filter((m: any) => m.approvalStatus === 0);
           } else {
           }
         },

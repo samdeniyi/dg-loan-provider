@@ -28,9 +28,7 @@ export class TotalRevenueComponent implements OnInit {
         }
       },
       grid: {
-        borderWidth: 0,
-        y: 80,
-        y2: 60
+        borderWidth: 0
       },
       xAxis: [
         {
@@ -51,7 +49,7 @@ export class TotalRevenueComponent implements OnInit {
           itemStyle: {
             color: '#7460ee'
           },
-          barWidth: '10px'
+          barWidth: 10
         }
       ]
     };
